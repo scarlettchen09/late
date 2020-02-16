@@ -1,6 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-
+#include <SFML/Audio.hpp>
 #include <string>
 #include <iostream>
 int main()
@@ -12,9 +12,16 @@ int main()
     Window.setKeyRepeatEnabled(false);
     sf::Texture bTexture;
     sf::Sprite bImage;
-
+    sf::SoundBuffer jump;
+    sf::Music music;
     if(!bTexture.loadFromFile("../resources/Background.jpg"))
       std::cout << "Could not load background image" << std::endl;
+    if (!music.openFromFile("../resources/background.wav"))
+        std::cout << "Could not load background music" << std::endl;
+    if (!jump.loadFromFile("../resources/jump.wav"))
+        std::cout << "Could not load jump sound effect" << std::endl;
+    sf::Sound sound;
+    sound.setBuffer(jump);
 
     bImage.setTexture(bTexture);
     bImage.setScale(9.0f, (float)screenDimensions.y / bTexture.getSize().y);
@@ -30,20 +37,22 @@ int main()
 
     float xAcl = 0.0f;
     float yAcl = 0.0f;
-
+    
     sf::View view;
 
     view.reset(sf::FloatRect(0, 0, screenDimensions.x, screenDimensions.y));
     view.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
 
     sf::Vector2f position(screenDimensions.x / 2, screenDimensions.y / 2);
-
+    music.setLoop(true);
+    music.play();
     while(Window.isOpen()){
       clock.restart();
       sf::Event Event;
       while(Window.pollEvent(Event)){
         switch(Event.type){
-          case sf::Event::Closed:  Window.close();
+          case sf::Event::Closed:  
+            Window.close();
             break;
             Window.close();
             break;
@@ -55,9 +64,13 @@ int main()
               
             }
             if(Event.key.code == sf::Keyboard::Space){
-              if(rect.getPosition().y == screenDimensions.y - 20)
-                yAcl = 0.75f;
+                if (rect.getPosition().y == screenDimensions.y - 20)
+                {
+                    yAcl = 0.75f;
+                    sound.play();
+                }
             }
+
             break;
               
 
