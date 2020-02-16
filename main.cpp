@@ -8,48 +8,50 @@
 //Sprite movement and jump
 int main()
 {
-	sf::Vector2u mainWindowSize = { 800u, 600u };
-	sf::RenderWindow window(sf::VideoMode(mainWindowSize.x, mainWindowSize.y), "SFML Sprite Sheet Demonstration", sf::Style::Close);
+	sf::Vector2u mainWindowSize = { 1024, 768 };
+	sf::RenderWindow window(sf::VideoMode(mainWindowSize.x, mainWindowSize.y), "Late!", sf::Style::Close);
 	sf::Event evnt;
 	sf::View view;
-	sf::Vector2f spriteSize = { 54.0f,70.0 };
-	sf::Vector2f spritePosition = { 0.0f,mainWindowSize.y / 2.0f };
+	sf::Vector2f spriteSize = { 54.0f, 70.0f };
+	sf::Vector2f spritePosition = { 0, 480 };
+	sf::Texture spriteTexture, bTexture;
+	unsigned horizontalTextureOffset = 0;
 	bool pauseFlag = false;
-	auto loopCounter = 0u;
-	float xOffset;
+	int loopCounter = 0;
 	float yVel, xAcl, yAcl;
+
 	yVel = xAcl = yAcl = 0.0f;
 
-	// Set movement direction
-	enum Direction { Right, Left };
-	Direction direction = Right;
+	window.setKeyRepeatEnabled(false);
 
 	// Create sprite
-	sf::Texture spriteTexture;
-	spriteTexture.loadFromFile("C:\\Users\\delli7desktop\\Documents\\henry\\c++29\\running-sprite_half_size.png");
+	if (!spriteTexture.loadFromFile("C:\\Users\\delli7desktop\\Documents\\henry\\c++29\\running-sprite\\half_size.png"))
+	{
+		std::cout << "Could not load sprite image" << std::endl;
+	}
+
+	if (!bTexture.loadFromFile("C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\resources\\Background.jpg"))
+	{
+		std::cout << "Could not load background image" << std::endl;
+	}
+
 	sf::IntRect locationInTexture;
 	locationInTexture.height = static_cast<int>(spriteSize.y);
 	locationInTexture.width = static_cast<int>(spriteSize.x);
 
-	unsigned horizontalTextureOffset = 0;
-	unsigned verticalTextureOffset = 0;
-	++verticalTextureOffset %= 2;
-	locationInTexture.left = horizontalTextureOffset * spriteSize.x;
-	locationInTexture.top = 0;
-
-	sf::Sprite sprite(spriteTexture);
+	sf::Sprite sprite(spriteTexture), bImage;
 	sprite.setPosition(spritePosition);
 	sprite.setTextureRect(locationInTexture);
-	sprite.setTexture(spriteTexture);
 
+	bImage.setTexture(bTexture);
+	bImage.setScale(5.0f, (float)mainWindowSize.y / bTexture.getSize().y);
+	bImage.setPosition(0, 80);
 	// Music
 	sf::Music music;
 	music.openFromFile("C:\\Users\\delli7desktop\\Documents\\henry\\c++29\\GreenOnions.ogg");
-	music.setVolume(0);
 	music.play();
 
 	view.reset(sf::FloatRect(0, 0, mainWindowSize.x, mainWindowSize.y));
-	view.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
 	while (window.isOpen())
 	{
 		while (window.pollEvent(evnt))
@@ -64,14 +66,6 @@ int main()
 					window.close();
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 					pauseFlag = !pauseFlag;
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-					direction = Left;
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-					direction = Right;
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-					spritePosition.y -= 20.0f;
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-					spritePosition.y += 20.0f;
 				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 				{
 					if (sprite.getPosition().y == mainWindowSize.y - 20)
@@ -105,20 +99,6 @@ int main()
 			loopCounter++;
 			if (loopCounter % 500 == 0)
 			{
-				if (direction == Right)
-				{
-					if (spritePosition.x > mainWindowSize.x)
-					{
-						direction = Left;
-					}
-				}
-				else
-				{
-					if (spritePosition.x < 0.0f)
-					{
-						direction = Right;
-					}
-				}
 				// Set the texture offset in the sprite sheet
 				if (loopCounter % 800 == 0)
 				{
@@ -128,16 +108,16 @@ int main()
 				{
 					horizontalTextureOffset++;
 				}
-				locationInTexture.top = direction * spriteSize.y;
 				locationInTexture.left = horizontalTextureOffset * spriteSize.x;
 				sprite.setTextureRect(locationInTexture);
 				sprite.setTexture(spriteTexture);
 			}
 		}
-		spritePosition.x += 0.0001;
+		spritePosition.x += 0.1;
 		sprite.setPosition(spritePosition.x, sprite.getPosition().y);
 		view.setCenter(spritePosition);
 		window.setView(view);
+		window.draw(bImage);
 		window.draw(sprite);
 		window.display();
 		window.clear();
