@@ -5,7 +5,7 @@
 #include <SFML/Window.hpp>
 #include <string>
 #include <iostream>
-//Sprite movement and jump
+//Sprite movements and jumps
 int main()
 {
 	sf::Vector2u mainWindowSize = { 1024, 768 };
@@ -24,7 +24,6 @@ int main()
 
 	window.setKeyRepeatEnabled(false);
 
-	// Create sprite
 	if (!spriteTexture.loadFromFile("C:\\Users\\delli7desktop\\Documents\\henry\\c++29\\running-sprite\\half_size.png"))
 	{
 		std::cout << "Could not load sprite image" << std::endl;
@@ -99,7 +98,6 @@ int main()
 			loopCounter++;
 			if (loopCounter % 500 == 0)
 			{
-				// Set the texture offset in the sprite sheet
 				if (loopCounter % 800 == 0)
 				{
 					horizontalTextureOffset = 0;
