@@ -11,19 +11,18 @@ sf::Vector2f Obstacle::getDim()
 	return dim;
 }
 
-
 int Obstacle::getCounter()
 {
 	return counter;
 }
 
-void Obstacle::generateObstacle(double pos, int seed)
+void Obstacle::generateObstacle(double pos, int seed, int obstacleGenSpeed)
 {
 	srand(seed * time(0));
-	if (rand() % 6 == 0 && counter < 100 && (int)pos % 100 == 0)
-	{
+	if (rand() % obstacleGenSpeed == 0 && counter < 100 && ((int)pos % (obstacleGenSpeed * 40)) == 0)
+	{  
 		rect[counter] = new sf::RectangleShape(dim);
-		rect[counter]->setPosition(pos + screenDim.x / 2, screenDim.y - dim.y);
+		rect[counter]->setPosition(pos + screenDim.x, screenDim.y - dim.y);
 		rect[counter]->setTexture(&obstacleTexture);
 		counter++;
 		std::cout << "OBSTACLE CREATED #" << counter << std::endl;
@@ -31,14 +30,20 @@ void Obstacle::generateObstacle(double pos, int seed)
 	
 }
 
-
-bool Obstacle::collision(sf::RectangleShape player, sf::RectangleShape obstacle)
+bool Obstacle::collision(sf::Sprite & player, int i)
 {
-	if (player.getPosition().x >= obstacle.getPosition().x && player.getPosition().y >= obstacle.getPosition().y)
+	double playerX1 = player.getPosition().x;
+	double playerX2 = player.getPosition().x + 10;
+	double playerY = player.getPosition().y + 130;
+	double obstacleX = (rect)[i]->getPosition().x;
+	double obstacleY = (rect)[i]->getPosition().y;
+
+	if ((playerX1 < obstacleX && obstacleX < playerX2) && playerY > obstacleY)
+	{
 		return true;
+	}
 	return false;
 }
-
 
 sf::RectangleShape** Obstacle::getObstacle()
 {
