@@ -43,15 +43,15 @@ int main()
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	if (!bTexture.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//deanzabackground.jpg"))
+	if (!bTexture.loadFromFile("../resources/deanzabackground.jpg"))
 		std::cout << "Could not load background image" << std::endl;
-	if (!playerTexture.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//player_spritesheet.png"))
+	if (!playerTexture.loadFromFile("../resources/player_spritesheet.png"))
 		std::cout << "Could not load player image" << std::endl;
-	if (!music.openFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//background.wav"))
+	if (!music.openFromFile("../resources/background.wav"))
 		std::cout << "Could not load background music" << std::endl;
-	if (!jump.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//jump.wav"))
+	if (!jump.loadFromFile("../resources/jump.wav"))
 		std::cout << "Could not load jump sound effect" << std::endl;
-	if (!squirrel.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//squirrel.png"))
+	if (!squirrel.loadFromFile("../resources/squirrel.png"))
 		std::cout << "Could not load squirrel effect" << std::endl;
 
 	Obstacle obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y - 30), sf::Vector2f(67, 50), squirrel, 20);
