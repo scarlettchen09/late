@@ -14,22 +14,22 @@ Menu::Menu(float width, float height)
 	menu[0].setFont(font);
 	menu[0].setColor(sf::Color::Red);
 	menu[0].setString("Play");
-	menu[0].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+	menu[0].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 1));
 
 	menu[1].setFont(font);
 	menu[1].setColor(sf::Color::Black);
 	menu[1].setString("Options");
-	menu[1].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+	menu[1].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
 
 	menu[2].setFont(font);
 	menu[2].setColor(sf::Color::Black);
 	menu[2].setString("Exit");
-	menu[2].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 4));
+	menu[2].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
 
-	menu[3].setFont(font);
-	menu[3].setColor(sf::Color::Black);
-	menu[3].setString("There are no options available right now");
-	menu[3].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+	option.setFont(font);
+	option.setColor(sf::Color::Black);
+	option.setString("There are no options \navailable right now");
+	option.setPosition(sf::Vector2f(width / 4, height / 5 * 2));
 
 	selectedItemIndex = 0;
 }
@@ -37,7 +37,7 @@ Menu::Menu(float width, float height)
 
 void Menu::draw(sf::RenderWindow& window)
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
 	{
 		window.draw(menu[i]);
 	}
@@ -45,7 +45,7 @@ void Menu::draw(sf::RenderWindow& window)
 
 void Menu::optionDraw(sf::RenderWindow& window)
 {
-	window.draw(menu[3]);
+	window.draw(option);
 }
 
 void Menu::MoveUp()
