@@ -1,8 +1,13 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
+#include "obstacle.h"
 #include <iostream>
 #include <string>
+
+bool collision(sf::Sprite player, sf::RectangleShape obstacle);
+
+
 int main()
 {
 	sf::Vector2i screenDimensions(800, 600);
@@ -14,6 +19,7 @@ int main()
 	
 	sf::Texture bTexture;
 	sf::Texture playerTexture;
+	sf::Texture squirrel;
 	sf::Sprite playerSprite;
 	sf::Sprite bImage;
 	sf::SoundBuffer jump;
@@ -26,6 +32,8 @@ int main()
 		std::cout << "Could not load background music" << std::endl;
 	if (!jump.loadFromFile("../resources/jump.wav"))
 		std::cout << "Could not load jump sound effect" << std::endl;
+	if (!squirrel.loadFromFile("../resources/squirrel.png"))
+		std::cout << "Could not load squirrel effect" << std::endl;
 	sf::Sound sound;
 	sound.setBuffer(jump);
 
@@ -41,16 +49,13 @@ int main()
 	playerSprite.setTextureRect(playerRect);
 
 	playerSprite.setPosition(80, screenDimensions.y - playerHeight);
-	sf::RectangleShape rect(sf::Vector2f(20, 20));
-	rect.setFillColor(sf::Color::Red);
-	rect.setPosition(80, screenDimensions.y - 20);
 	sf::Clock clock;
 	sf::Time time;
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	int animationRate = 5; //Animates once every 5 updates
 	int animationCtr = 0;
 
-	float xVel = 2.0f;
+	float xVel = 5.0f;
 	float yVel = 0.0f;
 
 	float xAcl = 0.0f;
@@ -64,6 +69,9 @@ int main()
 	sf::Vector2f position(screenDimensions.x / 2, screenDimensions.y / 2);
 	music.setLoop(true);
 	music.play();
+
+	Obstacle obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y - 30), sf::Vector2f(67, 50), squirrel, 20);
+	sf::RectangleShape** obstacleArr;
 	while (Window.isOpen())
 	{
 		time += clock.restart();
@@ -127,9 +135,10 @@ int main()
 			}
 
 			position.x += xVel;
-
+			
 			time -= sf::seconds(frametime);
 		}
+		
 
 		view.setCenter(position);
 		Window.setView(view);
@@ -137,9 +146,38 @@ int main()
 		Window.draw(bImage);
 		Window.draw(playerSprite);
 
+		obstacle.generateObstacle(position.x, time.asMicroseconds());
+		obstacleArr = obstacle.getObstacle();
+		for (int i = 0; i < obstacle.getCounter(); i++)
+		{
+			Window.draw(*(obstacleArr[i]));
+			if (collision(playerSprite, *(obstacleArr[i])))
+			{
+				std::cout << "GAME OVER" << std::endl;
+				Window.close(); // replace this for game over or whatever
+			}
+				
+			
+		}
 		Window.display();
 		Window.clear();
 	}
 
 	return 0;
+}
+
+bool collision(sf::Sprite player, sf::RectangleShape obstacle)
+{
+	double playerX1 = player.getPosition().x;
+	double playerX2 = player.getPosition().x + 108;
+	double playerY2 = player.getPosition().y + 140;
+	double obstacleX1 = obstacle.getPosition().x;
+	double obstacleY1 = obstacle.getPosition().y;
+	double obstacleX2 = obstacle.getPosition().x + 67;
+	if ( ( (playerX1 <= obstacleX1 && obstacleX1 <= playerX2) || (playerX1 <= obstacleX2 && obstacleX2 <= playerX2) ) && playerY2 >= obstacleY1)
+	{
+		return true;
+	}
+		
+	return false;
 }
