@@ -5,6 +5,8 @@
 #include <iostream>
 #include <string>
 
+void mainMenu(sf::RenderWindow& Window, sf::Vector2i &screenDimensions);
+
 int main()
 {
 	int noOfImgs = 7;
@@ -68,7 +70,9 @@ int main()
 	view.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
 	music.setLoop(true);
 	music.play();
-
+	////////////////////////////
+	mainMenu(Window, screenDimensions);
+	////////////////////////////
 	time = clock.restart();
 
 	while (Window.isOpen())
@@ -152,4 +156,94 @@ int main()
 		Window.clear();
 	}
 	return 0;
+}
+
+void mainMenu(sf::RenderWindow& Window, sf::Vector2i& screenDimensions)
+{
+	sf::Texture menuBackground;
+	sf::Sprite menuBack;
+	if (!menuBackground.loadFromFile("../resources/wakeup.png"))
+		std::cout << "Could not load background image" << std::endl;
+	menuBack.setTexture(menuBackground);
+	menuBack.setScale(screenDimensions.x / menuBack.getLocalBounds().width, screenDimensions.y / menuBack.getLocalBounds().height);
+
+	Menu menu(Window.getSize().x, Window.getSize().y);
+
+	while (Window.isOpen())
+	{
+		sf::Event event;
+	again:		Window.clear();
+		Window.draw(menuBack);
+		menu.draw(Window);
+
+		Window.display();
+
+		while (Window.pollEvent(event))
+		{
+			switch (event.type)
+			{
+			case sf::Event::KeyReleased:
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Up:
+					menu.MoveUp();
+					break;
+
+				case sf::Keyboard::Down:
+					menu.MoveDown();
+					break;
+
+				case sf::Keyboard::Return:
+					switch (menu.GetPressedItem())
+					{
+					case 0:
+						std::cout << "Play button has been pressed" << std::endl;
+						return;
+						break;
+					case 1:
+						std::cout << "Option button has been pressed" << std::endl;
+
+						while (Window.isOpen())
+						{
+							Window.clear();
+							Window.draw(menuBack);
+							menu.optionDraw(Window);
+
+							Window.display();
+
+							while (Window.pollEvent(event))
+							{
+								switch (event.type)
+								{
+								case sf::Event::KeyReleased:
+									switch (event.key.code)
+									{
+									case sf::Keyboard::Backspace: goto again;
+										break;
+									}
+								}
+							}
+
+						}
+					case 2:
+						Window.close();
+						break;
+					}
+
+					break;
+				}
+
+				break;
+			case sf::Event::Closed:
+				Window.close();
+
+				break;
+
+			}
+		}
+
+
+	}
+
+
 }
