@@ -10,17 +10,18 @@ int main()
 	int noOfImgs = 7;
 	int xLocCharacter = 10;
 	int animationRate = 5; //Animates once every 5 updates
-	int levelIndex = 5; //For adjusting the rate in which obstacles are generated.
+	int levelIndex = 1; //For adjusting the rate in which obstacles are generated.
 	int animationCtr = 0;
 	int playerWidth = 108;
 	int playerHeight = 140;
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
-	float xVel = 5.0f;
+	float xVel = 11.0f;
 	float yVel = 0.0f;
 	float yAcl = 0.0f;
 	float takeOffSpeed = 22.0f;
 	float landingSpeed = -1.0f;
-
+	bool autoPlay = true;
+	bool autoJmped = true;
 	sf::Vector2i screenDimensions(800, 600);
 	sf::RenderWindow Window;
 	sf::Texture bTexture;
@@ -136,16 +137,26 @@ int main()
 		Window.setView(view);
 		Window.draw(bImage);
 		Window.draw(playerSprite);
-
-		obstacle.generateObstacle(position.x, time.asMicroseconds(), levelIndex);
-
+		if (autoJmped)
+		{
+			autoJmped = !obstacle.generateObstacle(position.x, time.asMicroseconds(), levelIndex);
+		}
 		for (int i = 0; i < obstacle.getCounter(); i++)
 		{
 			Window.draw(*(obstacle.getObstacle()[i]));
-			if (obstacle.collision(playerSprite, i))
+			if (obstacle.collision(playerSprite, i, autoPlay))
 			{
-				std::cout << "GAME OVER" << std::endl;
-				Window.close(); // replace this for game over or whatever
+				if ((playerSprite.getPosition().y == screenDimensions.y - playerHeight) && autoPlay)
+				{
+					yAcl = takeOffSpeed;
+					sound.play();
+					autoJmped = true;
+				}
+				else 
+				{
+					std::cout << "GAME OVER" << std::endl;
+					Window.close(); // replace this for game over or whatever
+				}
 			}
 		}
 		Window.display();

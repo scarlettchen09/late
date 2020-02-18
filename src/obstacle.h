@@ -18,7 +18,7 @@ public:
 	sf::Vector2f getDim();
 	sf::RectangleShape** getObstacle();
 	int getCounter();
-	void generateObstacle(double pos, int seed, int obstacleGenSpeed);
-	bool collision(sf::Sprite &player, int i);
+	bool generateObstacle(double pos, int seed, int obstacleGenSpeed);
+	bool collision(sf::Sprite &player, int i, bool autoPlayFlag);
 };
 #endif
