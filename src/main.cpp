@@ -4,6 +4,7 @@
 #include "obstacle.h"
 #include <iostream>
 #include <string>
+#include "Menu.h"
 
 void mainMenu(sf::RenderWindow& Window, sf::Vector2i &screenDimensions);
 
