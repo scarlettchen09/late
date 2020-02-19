@@ -10,7 +10,7 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i &screenDimensions);
 
 int main()
 {
-	int noOfImgs = 7;
+Again:	int noOfImgs = 7;
 	int xLocCharacter = 10;
 	int animationRate = 5; //Animates once every 5 updates
 	int levelIndex = 1; //For adjusting the rate in which obstacles are generated.
@@ -160,7 +160,7 @@ int main()
 				else 
 				{
 					std::cout << "GAME OVER" << std::endl;
-					Window.close(); // replace this for game over or whatever
+					goto Again; // replace this for game over or whatever
 				}
 			}
 		}
