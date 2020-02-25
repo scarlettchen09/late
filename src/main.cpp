@@ -4,6 +4,7 @@
 #include "obstacle.h"
 #include "Menu.h"
 #include "player.h"
+#include "Timer.h"
 #include <iostream>
 #include <string>
 
@@ -14,7 +15,7 @@ int main()
 {
 	int levelIndex = 11; //For adjusting the rate in which obstacles are generated.
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
-	float xVel = 11.0f;
+	float xVel = 3.0f;
 	float takeOffSpeed = 22.0f;
 	bool autoPlay = true;
 	bool autoJmped = true;
@@ -30,17 +31,18 @@ int main()
 	sf::Clock clock;
 	sf::Time time;
 	sf::View view;
+	sf::View hudView;
 	sf::Sound sound;
 	sf::Event Event;
 	sf::RectangleShape** obstacleArr;
 	sf::Vector2f position(screenDimensions.x / 2, screenDimensions.y / 2);
-
+	Timer timer;
 
 	Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	if (!bTexture.loadFromFile("../resources/deanzabackground.jpg"))
+	if (!bTexture.loadFromFile("../resources/Backgrounds/bg2.jpg"))
 		std::cout << "Could not load background image" << std::endl;
 	if (!playerTexture.loadFromFile("../resources/player_spritesheet.png"))
 		std::cout << "Could not load player image" << std::endl;
@@ -67,6 +69,7 @@ int main()
 	view.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
 	music.setLoop(true);
 	music.play();
+	timer.startTimer();
 	////////////////////////////
 	mainMenu:
 	mainMenu(Window, screenDimensions);
@@ -104,10 +107,15 @@ int main()
 			player.update();
 			time -= sf::seconds(frametime);
 		}
+		timer.update();
 		view.setCenter(position);
+
 		Window.setView(view);
 		Window.draw(bImage);
 		Window.draw(player.getSprite());
+
+		Window.setView(hudView);
+		Window.draw(timer.getText());
 		//obstacle.generateObstacle(position.x, time.asMicroseconds(), levelIndex);
 		/*for (int i = 0; i < obstacle.getCounter(); i++)
 		{
