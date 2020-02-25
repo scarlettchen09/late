@@ -16,20 +16,20 @@ MenuScreen::MenuScreen(float width, float height){
 
 	menu[1].setFont(font);
 	menu[1].setColor(sf::Color::Black);
-	menu[1].setString("Options");
-	menu[1].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+	menu[1].setString("Instructions");
+	menu[1].setPosition(sf::Vector2f(width / 1.4 - width / 6, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
 
 	menu[2].setFont(font);
 	menu[2].setColor(sf::Color::Black);
 	menu[2].setString("Exit");
 	menu[2].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+	curState = screenState::Menu;
 
-/*
-	option.setFont(font);
-	option.setColor(sf::Color::Black);
-	option.setString("There are no options \navailable right now");
-	option.setPosition(sf::Vector2f(width / 4, height / 5 * 2));
-*/
+	instructions.setFont(font);
+    instructions.setColor(sf::Color::Black);
+	instructions.setString("Get to\nclass in time!\nAvoid obstacles\nand don't be\nLATE!");
+	instructions.setPosition(sf::Vector2f(width / 2 + width / 20, height / 5 * 2));
+
 	selectedItemIndex = 0;
 }
 
@@ -44,6 +44,7 @@ void MenuScreen::draw(sf::RenderWindow& window)
 void MenuScreen::optionDraw(sf::RenderWindow& window)
 {
 	window.draw(option);
+	window.draw(instructions);
 }
 
 void MenuScreen::MoveUp()
@@ -67,7 +68,6 @@ void MenuScreen::MoveDown()
 }
 
 int MenuScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
-    bool Running = true;
     sf::Texture menuBackground;
 	sf::Sprite menuBack;
 	if (!menuBackground.loadFromFile("../resources/wakeup.png"))
@@ -75,20 +75,10 @@ int MenuScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
 	menuBack.setTexture(menuBackground);
 	menuBack.setScale(screenDimensions.x / menuBack.getLocalBounds().width, screenDimensions.y / menuBack.getLocalBounds().height);
 
-	//Menu menu(Window.getSize().x, Window.getSize().y);
-
-	while (Running)
+	sf::Event event;
+	switch(curState)
 	{
-		sf::Event event;
-        /*
-	again:		
-		Window.clear();
-		Window.draw(menuBack);
-		menu.draw(Window);
-
-		Window.display();
-        */
-
+	case screenState::Menu:
 		while (Window.pollEvent(event))
 		{
 			switch (event.type)
@@ -109,39 +99,17 @@ int MenuScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
 					{
 					case 0:
 						std::cout << "Play button has been pressed" << std::endl;
-                        return 1; //Go to GameScreen
+						return 1; //Go to GameScreen
 						//return;
 						break;
 					case 1:
-						std::cout << "Option button has ben pressed" << std::endl;
-                        return 2; //Go to OptionScreen
-                        break;
-/*                  
-						while (Window.isOpen())
-						{
-							Window.clear();
-							Window.draw(menuBack);
-							menu.optionDraw(Window);
-
-							Window.display();
-
-							while (Window.pollEvent(event))
-							{
-								switch (event.type)
-								{
-								case sf::Event::KeyReleased:
-									switch (event.key.code)
-									{
-									case sf::Keyboard::Backspace: goto again;
-										break;
-									}
-								}
-							}
-
-						}
-                        */
+						std::cout << "Instruction button has been pressed" << std::endl;
+						curState = screenState::Instructions;
+						//return 2; //Go to OptionScreen
+						break;
 					case 2:
 						Window.close();
+						return -1;
 						break;
 					}
 
@@ -151,16 +119,46 @@ int MenuScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
 				break;
 			case sf::Event::Closed:
 				Window.close();
+				return -1;
 				break;
 
 			}
 		}
-
-        Window.clear();
+		Window.clear();
 		Window.draw(menuBack);
 		draw(Window);
+		break;
+	case screenState::Instructions:
+		while (Window.pollEvent(event))
+		{
+			switch (event.type)
+			{
+			case sf::Event::KeyReleased:
+				switch (event.key.code)
+				{
+				case sf::Keyboard::BackSpace:
+					curState = screenState::Menu;
+					break;
+				case sf::Keyboard::Escape:
+					curState = screenState::Menu;
+					break;
+				break;
+				}
+				break;
+			case sf::Event::Closed:
+				Window.close();
+				return -1;
+				break;
 
-		Window.display();
-
+			break;
+			}
+		}
+		Window.clear();
+		Window.draw(menuBack);
+		Window.draw(instructions);
 	}
+
+	Window.display();
+
+	
 }

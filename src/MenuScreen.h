@@ -9,7 +9,10 @@ class MenuScreen : public cScreen {
     	int selectedItemIndex;
         sf::Font font;
         sf::Text menu[MAX_NUMBER_OF_ITEMS];
+        sf::Text instructions;
         sf::Text option;
+        enum class screenState {Menu, Instructions}; //C++ 11 feature
+        screenState curState;
         void draw(sf::RenderWindow& window);
 	    void optionDraw(sf::RenderWindow& window);
 	    void MoveUp();
