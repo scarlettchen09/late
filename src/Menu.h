@@ -1,7 +1,8 @@
+/*
 #pragma once
 #include "SFML/Graphics.hpp"
 
-const int MAX_NUMBER_OF_ITEMS = 3;
+//const int MAX_NUMBER_OF_ITEMS = 3;
 class Menu
 {
 private:
@@ -19,4 +20,4 @@ public:
 	void MoveDown();
 	int GetPressedItem() { return selectedItemIndex; }
 };
-
+*/

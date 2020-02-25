@@ -1,3 +1,5 @@
 g++ *.cpp -Wall -Wextra -pedantic -Iinclude -L/usr/local/lib -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -o late-game
 
 
+g++ *.cpp -Wall -Wextra -pedantic -Iinclude"../" -L/usr/local/lib -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -o late-game
+

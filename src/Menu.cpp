@@ -1,3 +1,4 @@
+/*
 #include "Menu.h"
 #include <iostream>
 #pragma warning(disable : 4996)
@@ -67,3 +68,4 @@ void Menu::MoveDown()
 		menu[selectedItemIndex].setColor(sf::Color::Red);
 	}
 }
+*/

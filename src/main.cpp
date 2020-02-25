@@ -5,6 +5,8 @@
 #include "Menu.h"
 #include "player.h"
 #include "Timer.h"
+#include "cScreen.h"
+#include "MenuScreen.h"
 #include <iostream>
 #include <string>
 
@@ -13,6 +15,27 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i &screenDimensions);
 
 int main()
 {
+	sf::Vector2i screenDimensions(800, 600);
+	sf::RenderWindow Window;
+
+	std::vector<cScreen*> Screens;
+	int screen = 0;
+	//Window creation
+	Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
+
+	//Screens preparations
+	MenuScreen s0(screenDimensions.x, screenDimensions.y);
+	Screens.push_back(&s0);
+	//screen_1 s1;
+	//Screens.push_back(&s1);
+
+	//Main loop
+	while (screen >= 0)
+	{
+		screen = Screens[screen]->Run(Window, screenDimensions);
+	}
+
+	/*
 	int levelIndex = 11; //For adjusting the rate in which obstacles are generated.
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	float xVel = 3.0f;
@@ -122,12 +145,14 @@ int main()
 			Window.draw(*(obstacle.getObstacle()[i]));
 			if (obstacle.collision(player.getSprite(), i))
 				Window.close();
-		}*/
+		}\\\\
 		Window.display();
 		Window.clear();
 	}
+	*/
 	return 0;
 }
+/*
 
 void mainMenu(sf::RenderWindow& Window, sf::Vector2i& screenDimensions)
 {
@@ -219,3 +244,4 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i& screenDimensions)
 
 
 }
+*/
