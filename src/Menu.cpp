@@ -4,7 +4,7 @@
 
 Menu::Menu(float width, float height)
 {
-	char file[] = "C:\\Users\\dbiso\\Downloads\\font.ttf";
+	char file[] = "../resources/font.ttf";
 	if (!font.loadFromFile(file))
 	{
 		std::cout << "Error opening \"" << file << "\"\n";
