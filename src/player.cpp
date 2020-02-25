@@ -4,6 +4,34 @@
 Constructor: constructs the player object with an optional hit box paramater.
 Initializes every member variable and defaulted the player attributes. 
 */
+/* tried to make a default constructor - didnt work
+Player::Player(){
+	int xLocCharacter = 10; // default
+	int noOfImg = 7;
+	playerDim = sf::Vector2i(108, 140);
+	sf::Vector2i box = sf::Vector2i(0, 0);
+	currentTextureRect = sf::IntRect(0, 0, playerDim.x, playerDim.y);
+	screenDim = sf::Vector2i(800, 600);
+	playerSprite.setTextureRect(currentTextureRect);
+	playerPos = sf::Vector2f(xLocCharacter, screenDim.y - playerDim.y);
+	playerSprite.setPosition(playerPos);
+	if (box.x == 0) // default
+		hitbox = sf::IntRect(xLocCharacter, screenDim.y - playerDim.y, playerDim.x, playerDim.y);
+	else // given hitbox
+		hitbox = sf::IntRect(sf::Vector2i(xLocCharacter, screenDim.y - playerDim.y), box);
+
+	// default values
+	animation[0] = 0;
+	animation[1] = 5;
+	playerXacceleration = 0;
+	playerXvelocity = 0;
+	playerYacceleration = 1.0f; // gravity
+	playerYvelocity = 0;
+	jumpHeight = 0;
+	maxNoOfJump = 2;
+	noOfJump = maxNoOfJump;
+}
+*/
 Player::Player(sf::Vector2i screen, sf::Vector2i pDim, sf::Texture& playerText, int noImg, sf::Vector2i box)
 	:screenDim(screen), playerDim(pDim), noOfImg(noImg)
 {
@@ -17,7 +45,6 @@ Player::Player(sf::Vector2i screen, sf::Vector2i pDim, sf::Texture& playerText, 
 		hitbox = sf::IntRect(xLocCharacter, screenDim.y - playerDim.y, pDim.x, pDim.y);
 	else // given hitbox
 		hitbox = sf::IntRect(sf::Vector2i(xLocCharacter, screenDim.y - playerDim.y), box);
-	noOfImg = noImg;
 
 	// default values
 	animation[0] = 0;

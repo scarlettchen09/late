@@ -27,7 +27,7 @@ int main()
 	//Screens preparations
 	MenuScreen s0(screenDimensions.x, screenDimensions.y);
 	Screens.push_back(&s0);
-	GameScreen s1;
+	GameScreen s1(screenDimensions);
 	Screens.push_back(&s1);
 
 

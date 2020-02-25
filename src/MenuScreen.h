@@ -1,3 +1,4 @@
+#pragma once
 #include "cScreen.h"
 #include <SFML/Graphics.hpp>
 

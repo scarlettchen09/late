@@ -9,40 +9,15 @@
 #include "Timer.h"
 #include "obstacle.h"
 
-GameScreen::GameScreen(){
+GameScreen::GameScreen(sf::Vector2i& screenDimensions){
+	running = true;
 
-}
-
-int GameScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
-	bool running = true;
-	
-	int levelIndex = 11; //For adjusting the rate in which obstacles are generated.
-	float frametime = 1.0f / 60.0f; //Updates 60 times per second
-	float xVel = 3.0f;
-	float takeOffSpeed = 22.0f;
-	bool autoPlay = true;
-	bool autoJmped = true;
-
-	sf::Texture bTexture;
-	sf::Texture playerTexture;
-	sf::Texture squirrel;
-	sf::Sprite playerSprite;
-	sf::Sprite bImage;
-	sf::SoundBuffer jump;
-	sf::Music music;
-	sf::Clock clock;
-	sf::Time time;
-	sf::View view;
-	sf::View hudView;
-	sf::Sound sound;
-	sf::Event Event;
-	sf::RectangleShape** obstacleArr;
-	sf::Vector2f position(screenDimensions.x / 2, screenDimensions.y / 2);
-	Timer timer;
-
-	Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
-	Window.setKeyRepeatEnabled(false);
-	Window.setFramerateLimit(60);
+	levelIndex = 11; //For adjusting the rate in which obstacles are generated.
+	frametime = 1.0f / 60.0f; //Updates 60 times per second
+	xVel = 3.0f;
+	takeOffSpeed = 22.0f;
+	autoPlay = true;
+	autoJmped = true;
 
 	if (!bTexture.loadFromFile("../resources/Backgrounds/bg2.jpg"))
 		std::cout << "Could not load background image" << std::endl;
@@ -55,11 +30,10 @@ int GameScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
 	if (!squirrel.loadFromFile("../resources/squirrel.png"))
 		std::cout << "Could not load squirrel effect" << std::endl;
 
-	//Obstacle obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y - 30), sf::Vector2f(67, 50), squirrel, 20);
+	position.x = screenDimensions.x / 2;
+	position.y = screenDimensions.y / 2;
+	//(player.getSprite()).setTexture(playerTexture);
 
-	Player player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
-	player.setXvelocity(xVel);
-	player.setJumpHeight(takeOffSpeed);
 
 
 	sound.setBuffer(jump);
@@ -74,6 +48,20 @@ int GameScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
 	timer.startTimer();
 
 	time = clock.restart();
+
+}
+
+int GameScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
+
+	//Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
+	Window.setKeyRepeatEnabled(false);
+	//Window.setFramerateLimit(60);
+
+	
+	//Obstacle obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y - 30), sf::Vector2f(67, 50), squirrel, 20);
+	Player player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
+	player.setXvelocity(xVel);
+	player.setJumpHeight(takeOffSpeed);
 
 	while (Window.isOpen())
 	{

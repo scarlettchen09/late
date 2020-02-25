@@ -6,6 +6,7 @@
 // iostream is used for bebugging only :)
 class Player
 {
+private:
 	sf::Vector2i screenDim;
 	sf::Vector2i playerDim;
 	sf::Sprite playerSprite;
@@ -24,6 +25,7 @@ class Player
 	unsigned short noOfJump;
 
 public:
+	Player();
 	Player(sf::Vector2i screenDim, sf::Vector2i pDim, sf::Texture &playerText, int noImg, sf::Vector2i box = sf::Vector2i(0, 0));
 
 	// Accessors
@@ -40,7 +42,6 @@ public:
 	void setAcceleration(double acceleration);
 	void setJumpHeight(double height);
 	void setMaxNoOfJump(unsigned short no);
-	
 
 
 	bool jump();

@@ -14,7 +14,7 @@ Timer::Timer() {
 
     timerText.setFont(font);
     timerText.setCharacterSize(50);
-    timerText.setColor(sf::Color::White);
+    timerText.setFillColor(sf::Color::White);
     timerText.setString(std::to_string(remainingTime.asSeconds()));
     timerText.setPosition(0,0);
 }
