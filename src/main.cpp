@@ -20,6 +20,8 @@ int main()
 	sf::Vector2i screenDimensions(800, 600);
 	sf::RenderWindow Window;
 	Window.setFramerateLimit(60);
+	Window.setKeyRepeatEnabled(false);
+
 	std::vector<cScreen*> Screens;
 	int screen = 0;
 	//Window creation

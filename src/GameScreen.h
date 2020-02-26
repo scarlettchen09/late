@@ -9,8 +9,6 @@
 
 class GameScreen : public cScreen {
     private:
-    	bool running;
-	
         int levelIndex; //For adjusting the rate in which obstacles are generated.
         float frametime; //Updates 60 times per second
         float xVel;
@@ -33,7 +31,10 @@ class GameScreen : public cScreen {
         sf::Event Event;
         sf::RectangleShape** obstacleArr;
         sf::Vector2f position;
+        sf::Vector2f savedPlayerPos;
         Timer timer;
+
+        //Player* player;
 
         //Player player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
     public:

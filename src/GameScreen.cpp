@@ -10,8 +10,6 @@
 #include "obstacle.h"
 
 GameScreen::GameScreen(sf::Vector2i& screenDimensions){
-	running = true;
-
 	levelIndex = 11; //For adjusting the rate in which obstacles are generated.
 	frametime = 1.0f / 60.0f; //Updates 60 times per second
 	xVel = 3.0f;
@@ -46,25 +44,27 @@ GameScreen::GameScreen(sf::Vector2i& screenDimensions){
 	music.setLoop(true);
 	music.play();
 
-
-}
-
-int GameScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
 	timer.startTimer();
 
 	time = clock.restart();
-	//Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
-	Window.setKeyRepeatEnabled(false);
-	//Window.setFramerateLimit(60);
 
+	//player = new Player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
+
+	//player->setXvelocity(xVel);
+	//player->setJumpHeight(takeOffSpeed);
 	
 	//Obstacle obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y - 30), sf::Vector2f(67, 50), squirrel, 20);
+	
+}
+
+int GameScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
+
 	Player player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
 	player.setXvelocity(xVel);
 	player.setJumpHeight(takeOffSpeed);
 
-	while (Window.isOpen())
-	{
+	bool running = true;
+	while(running){
 		time += clock.restart();
 		if (time.asSeconds() >= frametime) //Sets a fixed time step so game can run at a constant update time
 		{

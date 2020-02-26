@@ -7,6 +7,7 @@ const int MAX_NUMBER_OF_ITEMS = 3;
 
 class MenuScreen : public cScreen {
     private:
+        float frametime;
     	int selectedItemIndex;
         sf::Font font;
         sf::Text menu[MAX_NUMBER_OF_ITEMS];
@@ -17,6 +18,9 @@ class MenuScreen : public cScreen {
 
         sf::Texture menuBackground;
     	sf::Sprite menuBack;
+
+        sf::Time time;
+        sf::Clock clock;
 
         void draw(sf::RenderWindow& window);
 	    void optionDraw(sf::RenderWindow& window);

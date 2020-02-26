@@ -4,8 +4,20 @@
 #include <iostream>
 
 EndScreen::EndScreen(sf::Vector2i& screenDimensions){
-	float width = screenDimensions.x;
+	
+}
+
+int EndScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
+    sf::Font font;
+    sf::Text gameOverText;
+    sf::Text againText;
+
+    sf::Texture endBackground;
+    sf::Sprite endBack;
+
+    float width = screenDimensions.x;
 	float height = screenDimensions.y;
+
     char file[] = "../resources/font.ttf";
 	if (!font.loadFromFile(file))
 	{
@@ -28,37 +40,41 @@ EndScreen::EndScreen(sf::Vector2i& screenDimensions){
 		std::cout << "Could not load background image" << std::endl;
 	endBack.setTexture(endBackground);
 	endBack.setScale(width / endBack.getLocalBounds().width, height / endBack.getLocalBounds().height);
-}
-
-int EndScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
+  
     sf::Event event;
-    while (Window.pollEvent(event))
-    {
-        switch (event.type)
-        {
-        case sf::Event::KeyPressed:
-            switch (event.key.code)
-            {
 
-            case sf::Keyboard::Return:
-                std::cout <<"Going from EndScreen to MenuScreen" << std::endl;
-                return 0;
+    bool running = true;
+
+    while(running){
+        while (Window.pollEvent(event))
+        {
+            switch (event.type)
+            {
+            case sf::Event::KeyPressed:
+                switch (event.key.code)
+                {
+
+                case sf::Keyboard::Return:
+                    std::cout <<"Going from EndScreen to MenuScreen" << std::endl;
+                    return 0;
+                    break;
+
+                break;
+                }
+                break;
+            case sf::Event::Closed:
+                Window.close();
+                return -1;
                 break;
 
-            break;
             }
-            break;
-        case sf::Event::Closed:
-            Window.close();
-            return -1;
-            break;
-
         }
+        Window.clear();
+        Window.draw(gameOverText);
+        Window.draw(againText);
+
+        Window.display();
     }
-    Window.clear();
-    Window.draw(gameOverText);
-    Window.draw(againText);
-
-	Window.display();
-
+   
+    return -1;
 }
