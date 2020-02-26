@@ -10,10 +10,11 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i &screenDimensions);
 
 int main()
 {
-Again:	int noOfImgs = 7;
-	int xLocCharacter = 10;
+Again:	
+	int noOfImgs = 7;
+	int xLocCharacter = 9;
 	int animationRate = 5; //Animates once every 5 updates
-	int levelIndex = 1; //For adjusting the rate in which obstacles are generated.
+	int levelIndex = 2; //For adjusting the obstacle gen rate (lower value = higher rate)
 	int animationCtr = 0;
 	int playerWidth = 108;
 	int playerHeight = 140;
@@ -23,7 +24,7 @@ Again:	int noOfImgs = 7;
 	float yAcl = 0.0f;
 	float takeOffSpeed = 22.0f;
 	float landingSpeed = -1.0f;
-	bool autoPlay = true;
+	bool autoPlay = false;
 	bool autoJmped = true;
 	sf::Vector2i screenDimensions(800, 600);
 	sf::RenderWindow Window;
@@ -47,17 +48,21 @@ Again:	int noOfImgs = 7;
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	if (!bTexture.loadFromFile("../resources/deanzabackground.jpg"))
-		std::cout << "Could not load background image" << std::endl;
-	if (!playerTexture.loadFromFile("../resources/player_spritesheet.png"))
-		std::cout << "Could not load player image" << std::endl;
-	if (!music.openFromFile("../resources/background.wav"))
-		std::cout << "Could not load background music" << std::endl;
-	if (!jump.loadFromFile("../resources/jump.wav"))
-		std::cout << "Could not load jump sound effect" << std::endl;
-	if (!squirrel.loadFromFile("../resources/squirrel.png"))
-		std::cout << "Could not load squirrel effect" << std::endl;
-
+	if (!bTexture.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//deanzabackground.jpg"))
+		if (!bTexture.loadFromFile("../resources/deanzabackground.jpg"))
+			std::cout << "Could not load background image" << std::endl;
+	if (!playerTexture.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//player_spritesheet.png"))
+		if (!playerTexture.loadFromFile("../resources/player_spritesheet.png"))
+			std::cout << "Could not load player image" << std::endl;
+	if (!music.openFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//background.wav"))
+		if (!music.openFromFile("../resources/background.wav"))
+			std::cout << "Could not load background music" << std::endl;
+	if (!jump.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//jump.wav"))
+		if (!jump.loadFromFile("../resources/jump.wav"))
+			std::cout << "Could not load jump sound effect" << std::endl;
+	if (!squirrel.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//squirrel.png"))
+		if (!squirrel.loadFromFile("../resources/squirrel.png"))
+			std::cout << "Could not load squirrel effect" << std::endl;
 	Obstacle obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y - 30), sf::Vector2f(67, 50), squirrel, 20);
 
 	sound.setBuffer(jump);
@@ -79,6 +84,10 @@ Again:	int noOfImgs = 7;
 
 	while (Window.isOpen())
 	{
+		if (!autoPlay)
+		{
+			autoJmped = true;
+		}
 		time += clock.restart();
 		if (time.asSeconds() >= frametime) //Sets a fixed time step so game can run at a constant update time
 		{
@@ -113,6 +122,8 @@ Again:	int noOfImgs = 7;
 							sound.play();
 						}
 					}
+					break;
+				default://to aovid program crash when unknown inputs are encountered
 					break;
 				}
 			}
@@ -157,7 +168,7 @@ Again:	int noOfImgs = 7;
 					sound.play();
 					autoJmped = true;
 				}
-				else 
+				else
 				{
 					std::cout << "GAME OVER" << std::endl;
 					goto Again; // replace this for game over or whatever
@@ -174,7 +185,7 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i& screenDimensions)
 {
 	sf::Texture menuBackground;
 	sf::Sprite menuBack;
-	if (!menuBackground.loadFromFile("../resources/wakeup.png"))
+	if (!menuBackground.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//resources//wakeup.png"))
 		std::cout << "Could not load background image" << std::endl;
 	menuBack.setTexture(menuBackground);
 	menuBack.setScale(screenDimensions.x / menuBack.getLocalBounds().width, screenDimensions.y / menuBack.getLocalBounds().height);
@@ -184,7 +195,8 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i& screenDimensions)
 	while (Window.isOpen())
 	{
 		sf::Event event;
-	again:		Window.clear();
+		again:		
+		Window.clear();
 		Window.draw(menuBack);
 		menu.draw(Window);
 
@@ -212,9 +224,9 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i& screenDimensions)
 						std::cout << "Play button has been pressed" << std::endl;
 						return;
 						break;
+
 					case 1:
 						std::cout << "Option button has been pressed" << std::endl;
-
 						while (Window.isOpen())
 						{
 							Window.clear();
@@ -235,27 +247,18 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i& screenDimensions)
 									}
 								}
 							}
-
 						}
 					case 2:
 						Window.close();
 						break;
 					}
-
 					break;
 				}
-
 				break;
 			case sf::Event::Closed:
 				Window.close();
-
 				break;
-
 			}
 		}
-
-
 	}
-
-
 }

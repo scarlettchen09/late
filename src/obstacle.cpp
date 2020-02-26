@@ -38,7 +38,7 @@ bool Obstacle::collision(sf::Sprite & player, int i, bool autoPlayFlag)
 	double playerY = player.getPosition().y + 130;
 	double obstacleX = (rect)[i]->getPosition().x;
 	double obstacleY = (rect)[i]->getPosition().y;
-	int autoDis = 180;
+	int autoDis = 190;
 	if ((playerX1 < obstacleX && obstacleX < playerX2) && (playerY > obstacleY) && !autoPlayFlag)
 	{
 		return true;
