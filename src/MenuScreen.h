@@ -14,11 +14,15 @@ class MenuScreen : public cScreen {
         sf::Text option;
         enum class screenState {Menu, Instructions}; //C++ 11 feature
         screenState curState;
+
+        sf::Texture menuBackground;
+    	sf::Sprite menuBack;
+
         void draw(sf::RenderWindow& window);
 	    void optionDraw(sf::RenderWindow& window);
 	    void MoveUp();
 	    void MoveDown();
     public:
-        MenuScreen(float width, float height);
+        MenuScreen(sf::Vector2i& screenDimensions);
         int Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions);
 };

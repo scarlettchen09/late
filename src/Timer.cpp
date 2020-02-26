@@ -20,6 +20,8 @@ Timer::Timer() {
 }
 
 void Timer::startTimer(){
+    remainingTime = sf::seconds(20);
+
     timeElapsed.restart();
 }
 

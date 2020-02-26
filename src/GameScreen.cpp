@@ -45,14 +45,14 @@ GameScreen::GameScreen(sf::Vector2i& screenDimensions){
 	view.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));
 	music.setLoop(true);
 	music.play();
-	timer.startTimer();
 
-	time = clock.restart();
 
 }
 
 int GameScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
+	timer.startTimer();
 
+	time = clock.restart();
 	//Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
 	Window.setKeyRepeatEnabled(false);
 	//Window.setFramerateLimit(60);

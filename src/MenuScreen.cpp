@@ -1,7 +1,9 @@
 #include "MenuScreen.h"
 #include <iostream>
 
-MenuScreen::MenuScreen(float width, float height){
+MenuScreen::MenuScreen(sf::Vector2i& screenDimensions){
+	float width = screenDimensions.x;
+	float height = screenDimensions.y;
     char file[] = "../resources/font.ttf";
 	if (!font.loadFromFile(file))
 	{
@@ -28,9 +30,14 @@ MenuScreen::MenuScreen(float width, float height){
 	instructions.setFont(font);
     instructions.setFillColor(sf::Color::Black);
 	instructions.setString("Get to\nclass in time!\nAvoid obstacles\nand don't be\nLATE!");
-	instructions.setPosition(sf::Vector2f(width / 2 + width / 20, height / 5 * 2));
+	instructions.setPosition(sf::Vector2f(width / 2 + width / 15, height / 5 * 2));
 
 	selectedItemIndex = 0;
+
+	if (!menuBackground.loadFromFile("../resources/wakeup.png"))
+		std::cout << "Could not load background image" << std::endl;
+	menuBack.setTexture(menuBackground);
+	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);
 }
 
 void MenuScreen::draw(sf::RenderWindow& window)
@@ -68,13 +75,14 @@ void MenuScreen::MoveDown()
 }
 
 int MenuScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
+	/*
     sf::Texture menuBackground;
 	sf::Sprite menuBack;
 	if (!menuBackground.loadFromFile("../resources/wakeup.png"))
 		std::cout << "Could not load background image" << std::endl;
 	menuBack.setTexture(menuBackground);
 	menuBack.setScale(screenDimensions.x / menuBack.getLocalBounds().width, screenDimensions.y / menuBack.getLocalBounds().height);
-
+	*/
 	sf::Event event;
 	switch(curState)
 	{

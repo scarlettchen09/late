@@ -8,6 +8,7 @@
 #include "cScreen.h"
 #include "MenuScreen.h"
 #include "GameScreen.h"
+#include "EndScreen.h"
 #include <iostream>
 #include <string>
 
@@ -25,11 +26,12 @@ int main()
 	Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
 
 	//Screens preparations
-	MenuScreen s0(screenDimensions.x, screenDimensions.y);
-	Screens.push_back(&s0);
-	GameScreen s1(screenDimensions);
-	Screens.push_back(&s1);
-
+    MenuScreen s0(screenDimensions);
+  	Screens.push_back(&s0);
+  	GameScreen s1(screenDimensions);
+ 	Screens.push_back(&s1);
+	EndScreen s2(screenDimensions);
+	Screens.push_back(&s2);
 
 	//Main loop
 	while (screen >= 0)
