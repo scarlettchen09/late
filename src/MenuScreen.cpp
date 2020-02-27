@@ -50,7 +50,7 @@ int MenuScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
 
 	float width = screenDimensions.x;
 	float height = screenDimensions.y;
-    char file[] = "../resources/font.ttf";
+    char file[] = "C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\late\\resources\\font.ttf";
 	if (!font.loadFromFile(file))
 	{
 		std::cout << "Error opening \"" << file << "\"\n";
@@ -80,7 +80,7 @@ int MenuScreen::Run(sf::RenderWindow &Window, sf::Vector2i& screenDimensions){
 
 	selectedItemIndex = 0;
 
-	if (!menuBackground.loadFromFile("../resources/wakeup.png"))
+	if (!menuBackground.loadFromFile("C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\late\\resources\\wakeup.png"))
 		std::cout << "Could not load background image" << std::endl;
 	menuBack.setTexture(menuBackground);
 	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);

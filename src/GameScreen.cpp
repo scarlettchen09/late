@@ -17,15 +17,15 @@ GameScreen::GameScreen(sf::Vector2i& screenDimensions){
 	autoPlay = true;
 	autoJmped = true;
 
-	if (!bTexture.loadFromFile("../resources/Backgrounds/bg2.jpg"))
+	if (!bTexture.loadFromFile("C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\late\\resources\\Backgrounds\\bg2.jpg"))
 		std::cout << "Could not load background image" << std::endl;
-	if (!playerTexture.loadFromFile("../resources/player_spritesheet.png"))
+	if (!playerTexture.loadFromFile("C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\late\\resources\\player_spritesheet.png"))
 		std::cout << "Could not load player image" << std::endl;
-	if (!music.openFromFile("../resources/background.wav"))
+	if (!music.openFromFile("C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\late\\resources\\background.wav"))
 		std::cout << "Could not load background music" << std::endl;
-	if (!jump.loadFromFile("../resources/jump.wav"))
+	if (!jump.loadFromFile("C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\late\\resources\\jump.wav"))
 		std::cout << "Could not load jump sound effect" << std::endl;
-	if (!squirrel.loadFromFile("../resources/squirrel.png"))
+	if (!squirrel.loadFromFile("C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\late\\resources\\squirrel.png"))
 		std::cout << "Could not load squirrel effect" << std::endl;
 
 	position.x = screenDimensions.x / 2;

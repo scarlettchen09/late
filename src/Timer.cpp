@@ -5,7 +5,7 @@ Timer::Timer() {
     remainingTime = sf::seconds(20);
     timeElapsed.restart();
 
-    char file[] = "../resources/font.ttf";
+    char file[] = "C:\\Users\\delli7desktop\\Documents\\GitHub\\late\\late\\resources\\font.ttf";
 	if (!font.loadFromFile(file))
 	{
 		std::cout << "Error opening \"" << file << "\"\n";
