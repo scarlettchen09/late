@@ -16,12 +16,12 @@ Player::Player(sf::Vector2i screen, sf::Vector2i pDim, sf::Texture& playerText, 
 	if (box.x == 0) // default
 	{
 		hitbox = sf::IntRect(xLocCharacter, screenDim.y - playerDim.y, pDim.x, pDim.y);
-		cushion = sf::IntRect(xLocCharacter, screenDim.y - playerDim.y, pDim.x + 200, pDim.y);
+		cushion = sf::IntRect(xLocCharacter, screenDim.y - playerDim.y, pDim.x + 250, pDim.y);
 	}
 	else // given hitbox
 	{
 		hitbox = sf::IntRect(sf::Vector2i(xLocCharacter, screenDim.y - playerDim.y), box);
-		cushion = sf::IntRect(sf::Vector2i(xLocCharacter, screenDim.y - playerDim.y), sf::Vector2i(box.x + 200, box.y));
+		cushion = sf::IntRect(sf::Vector2i(xLocCharacter, screenDim.y - playerDim.y), sf::Vector2i(box.x + 250, box.y));
 	}
 	noOfImg = noImg;
 
@@ -116,7 +116,7 @@ void Player::speedUp(double rate)
 {
 	playerXvelocity *= rate;
 	playerYacceleration *= rate;
-	jumpHeight += rate;
+	jumpHeight += rate * 6 - 6;
 }
 
 bool Player::jump()
