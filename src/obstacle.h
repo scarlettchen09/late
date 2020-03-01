@@ -5,20 +5,22 @@
 #include <iostream>
 class Obstacle
 {
-	int counter;
+protected:
+
 	sf::Vector2f dim;
 	sf::Vector2i screenDim;
-	sf::RectangleShape** rect;
+	sf::RectangleShape rect;
 	sf::Texture obstacleTexture;
+	sf::IntRect hitbox;
 
-	
 public:
 	
-	Obstacle(sf::Vector2i screen, sf::Vector2f obstacleDim, const sf::Texture obstacle, int numberOfObstacle);
+	Obstacle(sf::Vector2i screen, sf::Vector2f obstacleDim, const sf::Texture obstacle, sf::IntRect box);
+	~Obstacle();
 	sf::Vector2f getDim();
-	sf::RectangleShape** getObstacle();
-	int getCounter();
-	bool generateObstacle(double pos, int seed, int obstacleGenSpeed);
-	bool collision(sf::Sprite &player, int i, bool autoPlayFlag);
+	sf::RectangleShape getObstacle();
+	sf::IntRect getHitbox();
+	virtual void generateObstacle(double pos);
+	//bool collision(sf::Sprite &player, int i, bool autoPlayFlag);
 };
 #endif
