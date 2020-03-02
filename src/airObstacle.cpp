@@ -11,5 +11,3 @@ void AirObstacle::generateObstacle(double pos)
 	hitbox.left += pos;
 	hitbox.top += screenDim.y - dim.y - 180;
 }
-
-

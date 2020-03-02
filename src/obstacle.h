@@ -21,6 +21,5 @@ public:
 	sf::RectangleShape getObstacle();
 	sf::IntRect getHitbox();
 	virtual void generateObstacle(double pos);
-	//bool collision(sf::Sprite &player, int i, bool autoPlayFlag);
 };
 #endif

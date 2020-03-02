@@ -4,7 +4,7 @@
 
 Menu::Menu(float width, float height)
 {
-	char file[] = "C://Users//delli7desktop//Documents//GitHub//late//resources//font.ttf";
+	char file[] = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//font.ttf";
 	if (!font.loadFromFile(file))
 	{
 		std::cout << "Error opening \"" << file << "\"\n";

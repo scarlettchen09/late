@@ -23,8 +23,6 @@ Player::Player(sf::Vector2i screen, sf::Vector2i pDim, sf::Texture& playerText, 
 		hitbox = sf::IntRect(sf::Vector2i(xLocCharacter, screenDim.y - playerDim.y), box);
 		cushion = sf::IntRect(sf::Vector2i(xLocCharacter, screenDim.y - playerDim.y), sf::Vector2i(box.x + 250, box.y));
 	}
-	noOfImg = noImg;
-
 	// default values
 	animation[0] = 0;
 	animation[1] = 5;
@@ -33,8 +31,7 @@ Player::Player(sf::Vector2i screen, sf::Vector2i pDim, sf::Texture& playerText, 
 	playerYacceleration = 1.0f; // gravity
 	playerYvelocity = 0;
 	jumpHeight = 0;
-	maxNoOfJump = 2;
-	noOfJump = maxNoOfJump;
+	noOfJump = maxNoOfJump = 2;
 }
 
 
@@ -46,7 +43,6 @@ sf::Vector2i Player::getDim()
 {
 	return playerDim;
 }
-
 
 sf::Sprite Player::getSprite()
 {
@@ -67,7 +63,6 @@ sf::Vector2f Player::getPosition()
 {
 	return playerPos;
 }
-
 
 sf::IntRect Player::getHitbox()
 {
@@ -157,8 +152,6 @@ void Player::update()
 		playerSprite.setPosition(playerSprite.getPosition().x, screenDim.y - playerDim.y);
 	}
 
-		
-
 	playerSprite.move(playerXvelocity, -playerYvelocity);
 	hitbox.left = playerSprite.getPosition().x;
 	hitbox.top = playerSprite.getPosition().y;
@@ -169,5 +162,4 @@ void Player::update()
 		playerYvelocity = 0.0f;
 		noOfJump = maxNoOfJump;
 	}
-	
 }
