@@ -3,6 +3,7 @@
 #include <SFML/Audio.hpp>
 #include "obstacle.h"
 #include "Menu.h"
+#include "Timer.h"
 #include "player.h"
 #include "airObstacle.h"
 #include <iostream>
@@ -13,22 +14,22 @@ int main()
 {
 Again:
 	auto loopCounter = 0u;
-	int levelIndex = 1; //For adjusting the rate in which obstacles are generated. range should be 50 ~> 10 from low to high difficulty.
+	int levelIndex = 20; //For adjusting the rate in which obstacles are generated. range should be 50 to 10 (low to high difficulty).
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
 	sf::Vector2i screenDimensions(800, 600);
 	sf::Event Event;
 	sf::Vector2f position(screenDimensions.x / 2, screenDimensions.y / 2);
 	sf::RenderWindow Window;
-	sf::Texture bTexture;
-	sf::Texture playerTexture;
+	sf::Texture bTexture, playerTexture;
 	sf::Sprite bImage;
 	sf::SoundBuffer jump;
 	sf::Music music;
 	sf::Clock clock;
 	sf::Time time;
-	sf::View view;
+	sf::View view, hudView; //hudView (for timer) initialized with default pos values: top left corner of window screen
 	sf::Sound sound;
+	Timer timer(30);
 
 	Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
 	Window.setKeyRepeatEnabled(false);
@@ -71,10 +72,10 @@ mainMenu:
 	mainMenu(Window, screenDimensions);
 	////////////////////////////
 	time = clock.restart();
-
+	timer.startTimer();
 	while (Window.isOpen())
 	{
-		if (loopCounter % 150 == 0 && !autoPlay)//testing for a more dynamic and challenging game.
+		if (loopCounter % 150 == 0 && !autoPlay && levelIndex <= 20)//testing for a more dynamic and challenging game.
 		{
 			assignObstacleType(arr, numObstacle, screenDimensions);
 		}
@@ -109,17 +110,17 @@ mainMenu:
 			position.x += player.getXvelocity();
 			if (loopCounter % 400 == 0)
 			{
-				//position.x = screenDimensions.x / 2;
-				//player.getSprite().setPosition(player.getPosition());
+				position.x = screenDimensions.x / 2;
+				player.getSprite().setPosition(player.getPosition());
 			}
+			view.setCenter(position);
+			Window.setView(view);
 			player.update();
 			time -= sf::seconds(frametime);
 		}
-		view.setCenter(position);
-		Window.setView(view);
+		
 		Window.draw(bImage);
 		Window.draw(player.getSprite());
-
 		for (int i = 0; i < numObstacle; i++)
 		{
 			Window.draw(arr[i]->getObstacle());
@@ -136,6 +137,9 @@ mainMenu:
 				sound.play();
 			}
 		}
+		timer.update();
+		Window.setView(hudView);
+		Window.draw(timer.getText());
 		Window.display();
 		Window.clear();
 	}
