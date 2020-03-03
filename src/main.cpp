@@ -8,12 +8,9 @@
 #include "airObstacle.h"
 #include <iostream>
 #include <string>"
-void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound,
-	sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
+void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
 void assignObstacleType(Obstacle* arr[], int numObstacle, sf::Vector2i screenDimensions);
-void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound,
-	sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
-
+void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu);
 int main()
 {
 	sf::Vector2i screenDimensions(800, 600);
@@ -44,7 +41,6 @@ int main()
 
 	sound.setBuffer(jump);
 	bTexture.setSmooth(true);
-	bTexture.setRepeated(true);
 	bImage.setTexture(bTexture);
 	bImage.setScale(1.0f, 1.0f * screenDimensions.y / bTexture.getSize().y);
 	view.reset(sf::FloatRect(0, 0, screenDimensions.x, screenDimensions.y));
@@ -52,26 +48,18 @@ int main()
 	music.setLoop(true);
 	music.play();
 
-	////////////////////////////
 	mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
-	////////////////////////////
 	return 0;
 }
 
 void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage)
 {
-	sf::Texture menuBackground;
-	sf::Sprite menuBack;
-	if (!menuBackground.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//wakeup.png"))
-		std::cout << "Could not load background image" << std::endl;
-	menuBack.setTexture(menuBackground);
-	menuBack.setScale(screenDimensions.x / menuBack.getLocalBounds().width, screenDimensions.y / menuBack.getLocalBounds().height);
 	Menu menu(Window.getSize().x, Window.getSize().y);
+	sf::Event event;
 	while (Window.isOpen())
 	{
-		sf::Event event;
 		Window.clear();
-		Window.draw(menuBack);
+		menu.dispBackground(Window);
 		menu.draw(Window);
 		Window.display();
 
@@ -95,15 +83,14 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound
 					{
 					case 0:
 						std::cout << "Play button has been pressed" << std::endl;
-						startGame(Window, screenDimensions, sound, view, playerTexture, bImage);
+						startGame(Window, screenDimensions, sound, view, playerTexture, bImage, menu);
 						break;
 
 					case 1:
 						std::cout << "Help button has been pressed" << std::endl;
 						while (Window.isOpen())
 						{
-							Window.clear();
-							Window.draw(menuBack);
+							menu.dispBackground(Window);
 							menu.optionDraw(Window);
 							Window.display();
 
@@ -136,31 +123,29 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound
 	}
 }
 
-void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage)
+void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu)
 {
 	sf::Event Event;
 	sf::View hudView; //hudView (for timer) initialized with default pos values: top left corner of window screen
 	sf::Vector2f position(screenDimensions.x / 2, screenDimensions.y / 2);
 	sf::Clock clock;
 	sf::Time time;
-
-	Timer timer(30);
 	auto loopCounter = 0u;
 	int levelIndex = 20; //For adjusting the rate in which obstacles are generated. range should be 50 to 10 (low to high difficulty).
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
-
+	const int numObstacle = 100;
+	Obstacle* arr[numObstacle];
+	Timer timer(30);
 	Player player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
+
 	player.setXvelocity(11.0f);
 	player.setJumpHeight(22.0f);
 	player.speedUp(2.0f);
-
-	const int numObstacle = 100;
-	Obstacle* arr[numObstacle];
 	assignObstacleType(arr, numObstacle, screenDimensions);
-
 	time = clock.restart();
 	timer.startTimer();
+
 	while (Window.isOpen())
 	{
 		if (loopCounter % 150 == 0 && !autoPlay && levelIndex <= 20)//testing for a more dynamic and challenging game.
@@ -169,66 +154,55 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 		}
 		time += clock.restart();
 		loopCounter++;
-		if (time.asSeconds() >= frametime) //Sets a fixed time step so game can run at a constant update time
+		while (Window.pollEvent(Event))
 		{
-			while (Window.pollEvent(Event))
+			switch (Event.type)
 			{
-				switch (Event.type)
+			case sf::Event::Closed:
+				Window.close();
+				break;
+			case sf::Event::KeyPressed:
+				if (Event.key.code == sf::Keyboard::Space)
 				{
-				case sf::Event::Closed:
-					Window.close();
-					break;
-				case sf::Event::KeyPressed:
-					if (Event.key.code == sf::Keyboard::Space)
+					if (player.jump())
 					{
-						if (player.jump())
-						{
-							sound.play();
-						}
+						sound.play();
 					}
-					if (Event.key.code == sf::Keyboard::Escape)
-					{
-						Window.clear();
-						position.x = screenDimensions.x / 2;
-						position.y = screenDimensions.y / 2;
-						view.setCenter(position);
-						Window.setView(view);
-						mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
-					}
-					break;
-				default://to aovid program crash when unknown inputs are encountered
-					break;
 				}
+				if (Event.key.code == sf::Keyboard::Escape)
+				{
+					player.resetWindowView(position, screenDimensions, view, Window);
+					mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
+				}
+				break;
+			default://to aovid program crash when unknown inputs are encountered
+				break;
 			}
-			position.x += player.getXvelocity();
-			if (loopCounter % 400 == 0)
-			{
-				position.x = screenDimensions.x / 2;
-				player.getSprite().setPosition(player.getPosition());
-			}
-			view.setCenter(position);
-			Window.setView(view);
-			player.update();
-			time -= sf::seconds(frametime);
 		}
-
+		position.x += player.getXvelocity();
+		if (loopCounter % 400 == 0)
+		{
+			position.x = screenDimensions.x / 2;
+			player.resetPlayerPos();
+			player.getSprite().setPosition(player.getPosition());
+		}
+		view.setCenter(position);
+		Window.setView(view);
+		player.update();
 		Window.draw(bImage);
 		Window.draw(player.getSprite());
+		time -= sf::seconds(frametime);
+
 		for (int i = 0; i < numObstacle; i++)
 		{
 			Window.draw(arr[i]->getObstacle());
 
 			if (player.getHitbox().intersects(arr[i]->getHitbox()))
 			{
-				Window.clear();
-				position.x = screenDimensions.x / 2;
-				position.y = screenDimensions.y / 2;
-				view.setCenter(position);
-				Window.setView(view);
-				mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
-				//Window.close();
+				player.resetWindowView(position, screenDimensions, view, Window);
+				//mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
+				menu.dispGameover(Window);
 			}
-
 			if (autoPlay && player.getCushion().intersects(arr[i]->getHitbox()))
 			{
 				player.jump();

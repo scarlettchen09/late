@@ -32,8 +32,18 @@ Menu::Menu(float width, float height)
 	option.setPosition(sf::Vector2f(width / 5, height / 5 * 2));
 
 	selectedItemIndex = 0;
+
+	if (!menuBackground.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//wakeup.png"))
+		std::cout << "Could not load background image" << std::endl;
+	menuBack.setTexture(menuBackground);
+	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);
 }
 
+void Menu::dispBackground(sf::RenderWindow& Window)
+{
+	Window.clear();
+	Window.draw(menuBack);
+}
 
 void Menu::draw(sf::RenderWindow& window)
 {
@@ -65,5 +75,39 @@ void Menu::MoveDown()
 		menu[selectedItemIndex].setColor(sf::Color::Black);
 		selectedItemIndex++;
 		menu[selectedItemIndex].setColor(sf::Color::Red);
+	}
+}
+
+void Menu::dispGameover(sf::RenderWindow& window)
+{
+	while (window.isOpen())
+	{
+		window.clear();
+		sf::Event event;
+		option.setFont(font);
+		option.setColor(sf::Color::Red);
+		option.setString("------Game Over.------\n\n\n\nYou failed to get \nto class on time.\n\n\nPress Escape to exit.");
+		option.setPosition(sf::Vector2f(window.getSize().x / 3, window.getSize().y / 4));
+		dispBackground(window);
+		optionDraw(window);
+		window.display();
+
+		while (window.pollEvent(event))
+		{
+			switch (event.type)
+			{
+			case sf::Event::KeyReleased:
+				switch (event.key.code)
+				{
+				case sf::Keyboard::Escape:
+					window.close();
+					break;
+					break;
+				case sf::Event::Closed:
+					window.close();
+					break;
+				}
+			}
+		}
 	}
 }

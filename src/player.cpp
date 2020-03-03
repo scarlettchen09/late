@@ -7,12 +7,10 @@ Initializes every member variable and defaulted the player attributes.
 Player::Player(sf::Vector2i screen, sf::Vector2i pDim, sf::Texture& playerText, int noImg, sf::Vector2i box)
 	:screenDim(screen), playerDim(pDim), noOfImg(noImg)
 {
-	int xLocCharacter = 10; // default
 	playerSprite.setTexture(playerText);
 	currentTextureRect = sf::IntRect(0, 0, playerDim.x, playerDim.y);
 	playerSprite.setTextureRect(currentTextureRect);
-	playerPos = sf::Vector2f(xLocCharacter, screenDim.y - playerDim.y);
-	playerSprite.setPosition(playerPos);
+	resetPlayerPos();
 	if (box.x == 0) // default
 	{
 		hitbox = sf::IntRect(xLocCharacter, screenDim.y - playerDim.y, pDim.x, pDim.y);
@@ -33,7 +31,6 @@ Player::Player(sf::Vector2i screen, sf::Vector2i pDim, sf::Texture& playerText, 
 	jumpHeight = 0;
 	noOfJump = maxNoOfJump = 2;
 }
-
 
 /*~*~*~*~*~*~*~*~*
 ACESSOR FUNCTIONS
@@ -162,4 +159,18 @@ void Player::update()
 		playerYvelocity = 0.0f;
 		noOfJump = maxNoOfJump;
 	}
+}
+
+void Player::resetPlayerPos()
+{
+	playerPos = sf::Vector2f(xLocCharacter, screenDim.y - playerDim.y);
+	playerSprite.setPosition(playerPos);
+}
+
+void Player::resetWindowView(sf::Vector2f position, sf::Vector2i screenDimensions, sf::View view, sf::RenderWindow& Window)
+{
+	position.x = screenDimensions.x / 2;
+	position.y = screenDimensions.y / 2;
+	view.setCenter(position);
+	Window.setView(view);
 }
