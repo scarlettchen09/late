@@ -73,7 +73,6 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound
 		Window.clear();
 		Window.draw(menuBack);
 		menu.draw(Window);
-
 		Window.display();
 
 		while (Window.pollEvent(event))
@@ -106,7 +105,6 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound
 							Window.clear();
 							Window.draw(menuBack);
 							menu.optionDraw(Window);
-
 							Window.display();
 
 							while (Window.pollEvent(event))
@@ -190,6 +188,11 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 					}
 					if (Event.key.code == sf::Keyboard::Escape)
 					{
+						Window.clear();
+						position.x = screenDimensions.x / 2;
+						position.y = screenDimensions.y / 2;
+						view.setCenter(position);
+						Window.setView(view);
 						mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
 					}
 					break;
@@ -217,7 +220,13 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 
 			if (player.getHitbox().intersects(arr[i]->getHitbox()))
 			{
-				Window.close();
+				Window.clear();
+				position.x = screenDimensions.x / 2;
+				position.y = screenDimensions.y / 2;
+				view.setCenter(position);
+				Window.setView(view);
+				mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
+				//Window.close();
 			}
 
 			if (autoPlay && player.getCushion().intersects(arr[i]->getHitbox()))
