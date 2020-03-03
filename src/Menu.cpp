@@ -18,7 +18,7 @@ Menu::Menu(float width, float height)
 
 	menu[1].setFont(font);
 	menu[1].setColor(sf::Color::Black);
-	menu[1].setString("Options");
+	menu[1].setString("How to \nPlay");
 	menu[1].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
 
 	menu[2].setFont(font);
@@ -27,9 +27,9 @@ Menu::Menu(float width, float height)
 	menu[2].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
 
 	option.setFont(font);
-	option.setColor(sf::Color::Black);
-	option.setString("There are no options \navailable right now");
-	option.setPosition(sf::Vector2f(width / 4, height / 5 * 2));
+	option.setColor(sf::Color::Green);
+	option.setString("Jump over obstacles as \na student rushing \nto get to class\non time by pressing \nthe space key. \n\n DONT'T BE LATE!");
+	option.setPosition(sf::Vector2f(width / 5, height / 5 * 2));
 
 	selectedItemIndex = 0;
 }
