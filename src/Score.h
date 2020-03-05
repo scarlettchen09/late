@@ -2,19 +2,20 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 
-class Timer
+class Score
 {
     private:
         sf::Clock timeElapsed;
-        sf::Time remainingTime;
         sf::Font font;
-        sf::Text timerText;
+        sf::Text ScoreText;
+
+        double curScore;
 
     public:
-        Timer() = default;
-		Timer(int timeSeconds);
-        void startTimer();
-		void setTimerText();
+        Score() = default;
+		Score(int timeSeconds);
+        void startScore();
+		void setScoreText();
         void update();
         sf::Text getText();
 };

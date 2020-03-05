@@ -3,13 +3,15 @@
 #include <SFML/Audio.hpp>
 #include "obstacle.h"
 #include "Menu.h"
-#include "Timer.h"
+#include "Score.h"
 #include "player.h"
 #include "airObstacle.h"
 #include <iostream>
-#include <string>"
+#include <string>
+#include <vector>
+
 void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
-void assignObstacleType(Obstacle* arr[], int numObstacle, sf::Vector2i screenDimensions);
+void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObstacle, sf::Vector2i screenDimensions);
 void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu);
 int main()
 {
@@ -22,21 +24,20 @@ int main()
 	sf::View view;
 	sf::Sound sound;
 
+	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
+	std::string filePrefixLinux = "../resources/";
+	
 	Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	if (!bTexture.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//deanzabackground.jpg"))
-		//if (!bTexture.loadFromFile("../resources/deanzabackground.jpg"))
+	if (!bTexture.loadFromFile(filePrefixLinux + "deanzabackground.jpg"))
 		std::cout << "Could not load background image" << std::endl;
-	if (!playerTexture.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//player_spritesheet.png"))
-		//if (!playerTexture.loadFromFile("../resources/player_spritesheet.png"))
+	if (!playerTexture.loadFromFile(filePrefixLinux + "player_spritesheet.png"))
 		std::cout << "Could not load player image" << std::endl;
-	if (!music.openFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//background.wav"))
-		//if (!music.openFromFile("../resources/background.wav"))
+	if (!music.openFromFile(filePrefixLinux + "background.wav"))
 		std::cout << "Could not load background music" << std::endl;
-	if (!jump.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//jump.wav"))
-		//if (!jump.loadFromFile("../resources/jump.wav"))
+	if (!jump.loadFromFile(filePrefixLinux + "jump.wav"))
 		std::cout << "Could not load jump sound effect" << std::endl;
 
 	sound.setBuffer(jump);
@@ -126,7 +127,7 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound
 void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu)
 {
 	sf::Event Event;
-	sf::View hudView; //hudView (for timer) initialized with default pos values: top left corner of window screen
+	sf::View hudView; //hudView (for Score) initialized with default pos values: top left corner of window screen
 	sf::Vector2f position(screenDimensions.x / 2, screenDimensions.y / 2);
 	sf::Clock clock;
 	sf::Time time;
@@ -135,22 +136,25 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
 	const int numObstacle = 100;
-	Obstacle* arr[numObstacle];
-	Timer timer(30);
+	//Obstacle* arr[numObstacle];
+	std::vector<Obstacle*> obstacleCollection;
+	Score Score(30);
 	Player player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
 
 	player.setXvelocity(11.0f);
 	player.setJumpHeight(22.0f);
 	player.speedUp(2.0f);
-	assignObstacleType(arr, numObstacle, screenDimensions);
+	assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
+	//assignObstacleType(arr, numObstacle, screenDimensions);
 	time = clock.restart();
-	timer.startTimer();
+	Score.startScore();
 
 	while (Window.isOpen())
 	{
 		if (loopCounter % 150 == 0 && !autoPlay && levelIndex <= 20)//testing for a more dynamic and challenging game.
 		{
-			assignObstacleType(arr, numObstacle, screenDimensions);
+			assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
+			//assignObstacleType(arr, numObstacle, screenDimensions);
 		}
 		time += clock.restart();
 		loopCounter++;
@@ -195,41 +199,43 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 
 		for (int i = 0; i < numObstacle; i++)
 		{
-			Window.draw(arr[i]->getObstacle());
+			Window.draw(obstacleCollection[i]->getObstacle());
 
-			if (player.getHitbox().intersects(arr[i]->getHitbox()))
+			if (player.getHitbox().intersects(obstacleCollection[i]->getHitbox()))
 			{
 				player.resetWindowView(position, screenDimensions, view, Window);
 				//mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
 				menu.dispGameover(Window);
 			}
-			if (autoPlay && player.getCushion().intersects(arr[i]->getHitbox()))
+			if (autoPlay && player.getCushion().intersects(obstacleCollection[i]->getHitbox()))
 			{
 				player.jump();
 				sound.play();
 			}
 		}
-		timer.update();
+		Score.update();
 		Window.setView(hudView);
-		Window.draw(timer.getText());
+		Window.draw(Score.getText());
 		Window.display();
 		Window.clear();
 	}
 }
 
-void assignObstacleType(Obstacle* arr[], int numObstacle, sf::Vector2i screenDimensions)
+void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObstacle, sf::Vector2i screenDimensions)
 {
 	int squirrelDimX, squirrelDimY, birdDimX, birdDimY;
 	sf::Texture squirrel;
 	sf::Texture bird;
+	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
+	std::string filePrefixLinux = "../resources/";
 
 	squirrelDimX = 67;
 	squirrelDimY = 50;
 	birdDimX = 51;
 	birdDimY = 40;
-	if (!squirrel.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//squirrel.png"))
+	if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
 		std::cout << "Could not load squirrel effect" << std::endl;
-	if (!bird.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//bird.png"))
+	if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
 		std::cout << "Could not load bird effect" << std::endl;
 	srand(time(0) * rand());
 	for (int i = 0; i < numObstacle; i++)
@@ -238,18 +244,20 @@ void assignObstacleType(Obstacle* arr[], int numObstacle, sf::Vector2i screenDim
 		{
 			case 0:
 			{
-				arr[i] = new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, squirrelDimX, squirrelDimY));
+				obstacleCollection.push_back(new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, squirrelDimX, squirrelDimY)));
+				//obstacleCollection[i] = new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, squirrelDimX, squirrelDimY));
 				break;
 			}
 			case 1:
 			{
-				arr[i] = new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, birdDimX, birdDimY));
+				obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, birdDimX, birdDimY)));
+				//obstacleCollection[i] = new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, birdDimX, birdDimY));
 				break;
 			}
 		}
 	}
 	for (int i = 0; i < numObstacle; i++)
 	{
-		arr[i]->generateObstacle(screenDimensions.x * (i + 1));
+		obstacleCollection[i]->generateObstacle(screenDimensions.x * (i + 1));
 	}
 }

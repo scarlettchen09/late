@@ -4,7 +4,10 @@
 
 Menu::Menu(float width, float height)
 {
-	char file[] = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//font.ttf";
+	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
+	std::string filePrefixLinux = "../resources/";
+
+	std::string file = filePrefixLinux + "font.ttf";
 	if (!font.loadFromFile(file))
 	{
 		std::cout << "Error opening \"" << file << "\"\n";
@@ -33,7 +36,7 @@ Menu::Menu(float width, float height)
 
 	selectedItemIndex = 0;
 
-	if (!menuBackground.loadFromFile("C://Users//delli7desktop//Documents//GitHub//late//late//resources//wakeup.png"))
+	if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
 		std::cout << "Could not load background image" << std::endl;
 	menuBack.setTexture(menuBackground);
 	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);
