@@ -171,6 +171,7 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 	int levelIndex = 20; //For adjusting the rate in which obstacles are generated. range should be 50 to 10 (low to high difficulty).
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
+	bool gameOver = false;
 	const int numObstacle = 100;
 
 	std::vector<Obstacle*> obstacleCollection; //STL Container: vector
@@ -187,10 +188,19 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 
 	while (Window.isOpen())
 	{
-		if (loopCounter % 150 == 0 && !autoPlay && levelIndex <= 20)//testing for a more dynamic and challenging game.
-		{
+
+		if(loopCounter % 400 == 0){
+			obstacleCollection.clear();
 			assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
 		}
+
+/*
+		if (loopCounter % 400 == 0 && !autoPlay && levelIndex <= 20)//testing for a more dynamic and challenging game.
+		{
+			obstacleCollection.clear();
+			assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
+		}
+*/
 		time += clock.restart();
 		loopCounter++;
 		while (Window.pollEvent(Event))
@@ -235,7 +245,7 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 		for (auto obs : obstacleCollection) //C++ 11 Feature: range based for loop and auto
 		{
 			Window.draw(obs->getObstacle());
-
+		
 			if (player.getHitbox().intersects(obs->getHitbox()))
 			{
 				player.resetWindowView(position, screenDimensions, view, Window);
@@ -290,11 +300,11 @@ void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObsta
 		std::cout << errorMessage << std::endl << std::endl;
 	}
 	
-
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count(); //C++ 11 feature: use of chrono library, better than ctime. auto is also C++ 11 feature
 
 	std::default_random_engine generator(seed); //C++ 11 feature: using generator and distribution using <random> header for random numbers
 	std::uniform_int_distribution<int> distribution(0,1);
+	//makeRandomObstacles(obstacleCollection, numObstacle ,screenDimensions, squirrelDimX, squirrelDimY, birdDimX, birdDimY, squirrel, bird, generator, distribution);
 	int randObstacleType;
 
 	for (int i = 0; i < numObstacle; i++)
@@ -323,3 +333,4 @@ void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObsta
 	}
 	
 }
+
