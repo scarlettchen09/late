@@ -31,6 +31,8 @@ void Obstacle::generateObstacle(double pos)
 }
 
 Obstacle::~Obstacle()
-{ }
+{ 
+	
+}
 
 

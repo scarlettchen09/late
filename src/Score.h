@@ -10,12 +10,14 @@ class Score
         sf::Text ScoreText;
 
         double curScore;
+        int printAlertInterval;
+        int curAlertScore;
 
     public:
-        Score() = default;
-		Score(int timeSeconds);
+        Score();
         void startScore();
 		void setScoreText();
         void update();
         sf::Text getText();
+        friend std::ostream& operator<<(std::ostream& os, const Score& score);
 };

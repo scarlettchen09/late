@@ -8,7 +8,9 @@
 #include "airObstacle.h"
 #include <iostream>
 #include <string>
-#include <vector>
+#include <vector>//C++ 11 Feature: range based for loop and auto
+#include <chrono>
+#include <random>
 
 void loadMainFiles(sf::Texture& bTexture, sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::string prefix);
 void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
@@ -94,8 +96,8 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound
 	while (Window.isOpen())
 	{
 		Window.clear();
-		menu.dispBackground(Window);
-		menu.draw(Window);
+		menu.displayBackground(Window);
+		menu.drawAllOptions(Window);
 		Window.display();
 
 		while (Window.pollEvent(event))
@@ -106,11 +108,11 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound
 				switch (event.key.code)
 				{
 				case sf::Keyboard::Up:
-					menu.MoveUp();
+					menu.moveUp();
 					break;
 
 				case sf::Keyboard::Down:
-					menu.MoveDown();
+					menu.moveDown();
 					break;
 
 				case sf::Keyboard::Return:
@@ -125,8 +127,8 @@ void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound
 						std::cout << "Help button has been pressed" << std::endl;
 						while (Window.isOpen())
 						{
-							menu.dispBackground(Window);
-							menu.optionDraw(Window);
+							menu.displayBackground(Window);
+							menu.drawOption(Window);
 							Window.display();
 
 							while (Window.pollEvent(event))
@@ -170,25 +172,24 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
 	const int numObstacle = 100;
-	//Obstacle* arr[numObstacle];
-	std::vector<Obstacle*> obstacleCollection;
-	Score Score(30);
+
+	std::vector<Obstacle*> obstacleCollection; //STL Container: vector
+	Score score;
 	Player player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
 
 	player.setXvelocity(11.0f);
 	player.setJumpHeight(22.0f);
 	player.speedUp(2.0f);
 	assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
-	//assignObstacleType(arr, numObstacle, screenDimensions);
+
 	time = clock.restart();
-	Score.startScore();
+	score.startScore();
 
 	while (Window.isOpen())
 	{
 		if (loopCounter % 150 == 0 && !autoPlay && levelIndex <= 20)//testing for a more dynamic and challenging game.
 		{
 			assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
-			//assignObstacleType(arr, numObstacle, screenDimensions);
 		}
 		time += clock.restart();
 		loopCounter++;
@@ -213,7 +214,7 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 					mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
 				}
 				break;
-			default://to aovid program crash when unknown inputs are encountered
+			default://to avoid program crash when unknown inputs are encountered
 				break;
 			}
 		}
@@ -231,25 +232,26 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 		Window.draw(player.getSprite());
 		time -= sf::seconds(frametime);
 
-		for (int i = 0; i < numObstacle; i++)
+		for (auto obs : obstacleCollection) //C++ 11 Feature: range based for loop and auto
 		{
-			Window.draw(obstacleCollection[i]->getObstacle());
+			Window.draw(obs->getObstacle());
 
-			if (player.getHitbox().intersects(obstacleCollection[i]->getHitbox()))
+			if (player.getHitbox().intersects(obs->getHitbox()))
 			{
 				player.resetWindowView(position, screenDimensions, view, Window);
 				//mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
-				menu.dispGameover(Window);
+				menu.displayGameOver(Window);
 			}
-			if (autoPlay && player.getCushion().intersects(obstacleCollection[i]->getHitbox()))
+			if (autoPlay && player.getCushion().intersects(obs->getHitbox()))
 			{
 				player.jump();
 				sound.play();
 			}
 		}
-		Score.update();
+
+		score.update();
 		Window.setView(hudView);
-		Window.draw(Score.getText());
+		Window.draw(score.getText());
 		Window.display();
 		Window.clear();
 	}
@@ -287,28 +289,37 @@ void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObsta
 	{
 		std::cout << errorMessage << std::endl << std::endl;
 	}
+	
 
-	srand(time(0) * rand());
+	auto seed = std::chrono::system_clock::now().time_since_epoch().count(); //C++ 11 feature: use of chrono library, better than ctime. auto is also C++ 11 feature
+
+	std::default_random_engine generator(seed); //C++ 11 feature: using generator and distribution using <random> header for random numbers
+	std::uniform_int_distribution<int> distribution(0,1);
+	int randObstacleType;
+
 	for (int i = 0; i < numObstacle; i++)
 	{
-		switch (rand() % 2)
-		{
+		//int randObstacleType = distribution(generator);
+		switch (randObstacleType = distribution(generator); randObstacleType) //C++ 17 feature: initializing expression inside a switch statement
+		{	
 			case 0:
 			{
 				obstacleCollection.push_back(new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, squirrelDimX, squirrelDimY)));
-				//obstacleCollection[i] = new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, squirrelDimX, squirrelDimY));
 				break;
 			}
 			case 1:
 			{
 				obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, birdDimX, birdDimY)));
-				//obstacleCollection[i] = new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, birdDimX, birdDimY));
 				break;
 			}
 		}
+		
 	}
+
+    
 	for (int i = 0; i < numObstacle; i++)
 	{
 		obstacleCollection[i]->generateObstacle(screenDimensions.x * (i + 1));
 	}
+	
 }

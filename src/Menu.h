@@ -1,24 +1,25 @@
 #pragma once
 #include "SFML/Graphics.hpp"
+#include <vector>
 
-const int MAX_NUMBER_OF_ITEMS = 3;
 class Menu
 {
 private:
+	const int numberOfMenuOptions;
 	int selectedItemIndex;
 	sf::Font font;
-	sf::Text menu[MAX_NUMBER_OF_ITEMS];
+	std::vector<sf::Text> menuOptions; //STL Container: vector
 	sf::Text option;
 	sf::Texture menuBackground;
 	sf::Sprite menuBack;
 public:
 	Menu(float width, float height);
-	void dispBackground(sf::RenderWindow& Window);
-	void draw(sf::RenderWindow& window);
-	void optionDraw(sf::RenderWindow& window);
-	void MoveUp();
-	void MoveDown();
-	void dispGameover(sf::RenderWindow & window);
+	void displayBackground(sf::RenderWindow& Window);
+	void drawAllOptions(sf::RenderWindow& window);
+	void drawOption(sf::RenderWindow& window);
+	void moveUp();
+	void moveDown();
+	void displayGameOver(sf::RenderWindow & window);
 	int GetPressedItem() { return selectedItemIndex; }
 };
 

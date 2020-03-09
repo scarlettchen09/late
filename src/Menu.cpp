@@ -2,8 +2,12 @@
 #include <iostream>
 #pragma warning(disable : 4996)
 
-Menu::Menu(float width, float height)
+Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 {
+	for(int i = 0; i < numberOfMenuOptions; i++){
+		sf::Text text;
+		menuOptions.push_back(text);
+	}
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
 
@@ -18,20 +22,20 @@ Menu::Menu(float width, float height)
 	{
 		std::cout << errorMessage << std::endl << std::endl;
 	}
-	menu[0].setFont(font);
-	menu[0].setColor(sf::Color::Red);
-	menu[0].setString("Play");
-	menu[0].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 1));
+	menuOptions[0].setFont(font);
+	menuOptions[0].setColor(sf::Color::Red);
+	menuOptions[0].setString("Play");
+	menuOptions[0].setPosition(sf::Vector2f(width / 1.4, height / (numberOfMenuOptions + 1) * 1));
 
-	menu[1].setFont(font);
-	menu[1].setColor(sf::Color::Black);
-	menu[1].setString("How to \nPlay");
-	menu[1].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 2));
+	menuOptions[1].setFont(font);
+	menuOptions[1].setColor(sf::Color::Black);
+	menuOptions[1].setString("How to \nPlay");
+	menuOptions[1].setPosition(sf::Vector2f(width / 1.4, height / (numberOfMenuOptions + 1) * 2));
 
-	menu[2].setFont(font);
-	menu[2].setColor(sf::Color::Black);
-	menu[2].setString("Exit");
-	menu[2].setPosition(sf::Vector2f(width / 1.4, height / (MAX_NUMBER_OF_ITEMS + 1) * 3));
+	menuOptions[2].setFont(font);
+	menuOptions[2].setColor(sf::Color::Black);
+	menuOptions[2].setString("Exit");
+	menuOptions[2].setPosition(sf::Vector2f(width / 1.4, height / (numberOfMenuOptions + 1) * 3));
 
 	option.setFont(font);
 	option.setColor(sf::Color::Green);
@@ -54,46 +58,47 @@ Menu::Menu(float width, float height)
 	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);
 }
 
-void Menu::dispBackground(sf::RenderWindow& Window)
+void Menu::displayBackground(sf::RenderWindow& Window)
 {
 	Window.clear();
 	Window.draw(menuBack);
 }
 
-void Menu::draw(sf::RenderWindow& window)
+void Menu::drawAllOptions(sf::RenderWindow& window)
 {
-	for (int i = 0; i < MAX_NUMBER_OF_ITEMS; i++)
+	for(auto i : menuOptions) //C++ 11 Feature: range based for loop and auto
 	{
-		window.draw(menu[i]);
+		window.draw(i);
 	}
+
 }
 
-void Menu::optionDraw(sf::RenderWindow& window)
+void Menu::drawOption(sf::RenderWindow& window)
 {
 	window.draw(option);
 }
 
-void Menu::MoveUp()
+void Menu::moveUp()
 {
 	if (selectedItemIndex - 1 >= 0)
 	{
-		menu[selectedItemIndex].setColor(sf::Color::Black);
+		menuOptions[selectedItemIndex].setColor(sf::Color::Black);
 		selectedItemIndex--;
-		menu[selectedItemIndex].setColor(sf::Color::Red);
+		menuOptions[selectedItemIndex].setColor(sf::Color::Red);
 	}
 }
 
-void Menu::MoveDown()
+void Menu::moveDown()
 {
-	if (selectedItemIndex + 1 < MAX_NUMBER_OF_ITEMS)
+	if (selectedItemIndex + 1 < numberOfMenuOptions)
 	{
-		menu[selectedItemIndex].setColor(sf::Color::Black);
+		menuOptions[selectedItemIndex].setColor(sf::Color::Black);
 		selectedItemIndex++;
-		menu[selectedItemIndex].setColor(sf::Color::Red);
+		menuOptions[selectedItemIndex].setColor(sf::Color::Red);
 	}
 }
 
-void Menu::dispGameover(sf::RenderWindow& window)
+void Menu::displayGameOver(sf::RenderWindow& window)
 {
 	while (window.isOpen())
 	{
@@ -103,8 +108,8 @@ void Menu::dispGameover(sf::RenderWindow& window)
 		option.setColor(sf::Color::Red);
 		option.setString("------Game Over.------\n\n\n\nYou failed to get \nto class on time.\n\n\nPress Escape to exit.");
 		option.setPosition(sf::Vector2f(window.getSize().x / 3, window.getSize().y / 4));
-		dispBackground(window);
-		optionDraw(window);
+		displayBackground(window);
+		drawOption(window);
 		window.display();
 
 		while (window.pollEvent(event))
