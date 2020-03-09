@@ -10,6 +10,7 @@
 #include <string>
 #include <vector>
 
+void loadMainFiles(sf::Texture& bTexture, sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::string prefix);
 void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
 void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObstacle, sf::Vector2i screenDimensions);
 void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu);
@@ -31,14 +32,7 @@ int main()
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	if (!bTexture.loadFromFile(filePrefixLinux + "deanzabackground.jpg"))
-		std::cout << "Could not load background image" << std::endl;
-	if (!playerTexture.loadFromFile(filePrefixLinux + "player_spritesheet.png"))
-		std::cout << "Could not load player image" << std::endl;
-	if (!music.openFromFile(filePrefixLinux + "background.wav"))
-		std::cout << "Could not load background music" << std::endl;
-	if (!jump.loadFromFile(filePrefixLinux + "jump.wav"))
-		std::cout << "Could not load jump sound effect" << std::endl;
+	loadMainFiles(bTexture, playerTexture, music, jump, filePrefixLinux);
 
 	sound.setBuffer(jump);
 	bTexture.setSmooth(true);
@@ -53,6 +47,46 @@ int main()
 	return 0;
 }
 
+void loadMainFiles(sf::Texture& bTexture, sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::string prefix)
+{
+	try 
+	{
+		if (!bTexture.loadFromFile(prefix + "deanzabackground.jpg"))
+			throw(std::string("Could not load background image"));
+	}
+	catch (const std::string& errorMessage)
+	{
+		std::cout << errorMessage << std::endl << std::endl;
+	}
+	try
+	{
+		if (!playerTexture.loadFromFile(prefix + "player_spritesheet.png"))
+			throw(std::string("Could not load player image"));
+	}
+	catch (const std::string& errorMessage)
+	{
+		std::cout << errorMessage << std::endl << std::endl;
+	}
+	try
+	{
+		if (!music.openFromFile(prefix + "background.wav"))
+			throw(std::string("Could not load background music"));
+	}
+	catch (const std::string& errorMessage)
+	{
+		std::cout << errorMessage << std::endl << std::endl;
+	}
+	try 
+	{
+		if (!jump.loadFromFile(prefix + "jump.wav"))
+			throw(std::string("Could not load jump sound effect"));
+	}
+	catch (const std::string& errorMessage)
+	{
+		std::cout << errorMessage << std::endl << std::endl;
+	}
+
+}
 void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage)
 {
 	Menu menu(Window.getSize().x, Window.getSize().y);
@@ -233,10 +267,27 @@ void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObsta
 	squirrelDimY = 50;
 	birdDimX = 51;
 	birdDimY = 40;
-	if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
-		std::cout << "Could not load squirrel effect" << std::endl;
-	if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
-		std::cout << "Could not load bird effect" << std::endl;
+
+	try 
+	{
+		if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
+			throw(std::string("Could not load squirrel image"));
+	}
+	catch (const std::string& errorMessage)
+	{
+		std::cout << errorMessage << std::endl << std::endl;
+	}
+
+	try 
+	{
+		if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
+			throw(std::string("Could not load bird image"));
+	}
+	catch (const std::string& errorMessage)
+	{
+		std::cout << errorMessage << std::endl << std::endl;
+	}
+
 	srand(time(0) * rand());
 	for (int i = 0; i < numObstacle; i++)
 	{

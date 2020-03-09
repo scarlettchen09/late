@@ -8,12 +8,16 @@ Menu::Menu(float width, float height)
 	std::string filePrefixLinux = "../resources/";
 
 	std::string file = filePrefixLinux + "font.ttf";
-	if (!font.loadFromFile(file))
-	{
-		std::cout << "Error opening \"" << file << "\"\n";
-		exit(EXIT_FAILURE);
-	}
 
+	try 
+	{
+		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
+			throw(std::string("Could not load font"));
+	}
+	catch (const std::string& errorMessage)
+	{
+		std::cout << errorMessage << std::endl << std::endl;
+	}
 	menu[0].setFont(font);
 	menu[0].setColor(sf::Color::Red);
 	menu[0].setString("Play");
@@ -36,8 +40,16 @@ Menu::Menu(float width, float height)
 
 	selectedItemIndex = 0;
 
-	if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
-		std::cout << "Could not load background image" << std::endl;
+	try 
+	{
+		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
+			throw(std::string("Could not background image"));
+	}
+	catch (const std::string& errorMessage)
+	{
+		std::cout << errorMessage << std::endl << std::endl;
+	}
+
 	menuBack.setTexture(menuBackground);
 	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);
 }
