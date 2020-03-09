@@ -171,7 +171,6 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 	int levelIndex = 20; //For adjusting the rate in which obstacles are generated. range should be 50 to 10 (low to high difficulty).
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
-	bool gameOver = false;
 	const int numObstacle = 100;
 
 	std::vector<Obstacle*> obstacleCollection; //STL Container: vector
@@ -188,7 +187,6 @@ void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Soun
 
 	while (Window.isOpen())
 	{
-
 		if(loopCounter % 400 == 0){
 			obstacleCollection.clear();
 			assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
@@ -325,7 +323,6 @@ void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObsta
 		}
 		
 	}
-
     
 	for (int i = 0; i < numObstacle; i++)
 	{
