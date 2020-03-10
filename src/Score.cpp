@@ -26,12 +26,18 @@ void Score::setScoreText()
 		std::cout << "Error opening \"" << file << "\"\n";
 	}
 
+
+	labelText.setFont(font);
+	labelText.setCharacterSize(50);
+	labelText.setFillColor(sf::Color::White);
+	labelText.setPosition(0, 0);
+	labelText.setString("Score: ");
+
 	ScoreText.setFont(font);
 	ScoreText.setCharacterSize(50);
 	ScoreText.setFillColor(sf::Color::White);
-
 	ScoreText.setString(std::to_string(static_cast<int>(curScore)));
-	ScoreText.setPosition(0, 0);
+	ScoreText.setPosition(300, 0);
 }
 
 void Score::update()
@@ -45,6 +51,11 @@ void Score::update()
 		std::cout << *this; 
 	}
 
+}
+
+sf::Text Score::getLabel()
+{
+	return labelText;
 }
 
 sf::Text Score::getText()

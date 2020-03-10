@@ -226,6 +226,7 @@ void Menu::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf
 		score.update();
 		Window.setView(hudView);
 		Window.draw(score.getText());
+		Window.draw(score.getLabel());
 		Window.display();
 		Window.clear();
 	}
@@ -287,14 +288,11 @@ void Menu::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int nu
 			break;
 		}
 		}
-
 	}
-
 	for (int i = 0; i < numObstacle; i++)
 	{
 		obstacleCollection[i]->generateObstacle(screenDimensions.x * (i + 1));
 	}
-
 }
 
 void Menu::displayBackground(sf::RenderWindow& Window)
