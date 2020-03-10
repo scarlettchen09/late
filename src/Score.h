@@ -18,6 +18,7 @@ class Score
         void startScore();
 		void setScoreText();
         void update();
+        double getScore();
 		sf::Text getLabel();
         sf::Text getText();
         friend std::ostream& operator<<(std::ostream& os, const Score& score);

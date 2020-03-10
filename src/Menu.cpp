@@ -20,7 +20,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!font.loadFromFile(filePrefixH + "font.ttf"))
+		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
 			throw(std::string("Could not load font"));
 	}
 	catch (const std::string& errorMessage)
@@ -51,7 +51,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!menuBackground.loadFromFile(filePrefixH + "wakeup.png"))
+		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)
@@ -63,12 +63,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);
 }
 
-void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage)
+void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage)
 {
 	Menu menu(Window.getSize().x, Window.getSize().y);
 	sf::Event event;
 	GameShell startGameObject;
-	std::cout << " done!" << std::endl;
 	while (Window.isOpen())
 	{
 		Window.clear();
@@ -136,6 +135,8 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 	}
 }
 
+
+
 void Menu::displayBackground(sf::RenderWindow& Window)
 {
 	Window.clear();
@@ -176,7 +177,7 @@ void Menu::moveDown()
 	}
 }
 
-void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage)
+void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg)
 {
 	while (window.isOpen())
 	{
@@ -184,7 +185,7 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		sf::Event event;
 		option.setFont(font);
 		option.setColor(sf::Color::Red);
-		option.setString("------Game Over.------\n\n\n\nYou failed to get \nto class on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.");
+		option.setString(msg);
 		option.setPosition(sf::Vector2f(window.getSize().x / 4, window.getSize().y / 5));
 		displayBackground(window);
 		drawOption(window);

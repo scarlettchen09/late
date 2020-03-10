@@ -25,12 +25,12 @@ private:
 public:
 	Menu();
 	Menu(float width, float height);
-	void mainMenu(sf::RenderWindow & Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
+	void mainMenu(sf::RenderWindow & Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage);
 	void displayBackground(sf::RenderWindow& Window);
 	void drawAllOptions(sf::RenderWindow& window);
 	void drawOption(sf::RenderWindow& window);
 	void moveUp();
 	void moveDown();
-	void displayGameOver(sf::RenderWindow & window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
+	void displayGameOver(sf::RenderWindow & window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg);
 	int GetPressedItem() { return selectedItemIndex; }
 };

@@ -38,6 +38,7 @@ public:
 	sf::IntRect getCushion();
 
 	// Mutators
+	void setYacceleration(double yAcl);
 	void setAnimationRate(int rate);
 	void setXvelocity(double xVel);
 	void setAcceleration(double acceleration);

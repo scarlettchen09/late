@@ -85,6 +85,11 @@ void Player::setXvelocity(double xVel)
 	playerXvelocity = xVel;
 }
 
+void Player::setYacceleration(double yAcl)
+{
+	playerYacceleration = yAcl;
+}
+
 void Player::setAcceleration(double acceleration)
 {
 	playerXacceleration = acceleration;
