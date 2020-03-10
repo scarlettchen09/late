@@ -47,7 +47,7 @@ void Score::setScoreText()
 
 void Score::update()
 {
-	curScore += timeElapsed.getElapsedTime().asSeconds() * 2;
+	curScore += static_cast<double>(timeElapsed.getElapsedTime().asSeconds()) * 2;
 	timeElapsed.restart();
 	ScoreText.setString(std::to_string(static_cast<int>(curScore)));
 
@@ -74,7 +74,7 @@ std::ostream& operator<<(std::ostream& os, const Score& score)
 	std::array<std::string, 5> possibleMessages = {"Good job!", "Keep running!", "Make it on time!", "Don't hurt the animals!", "You're almost late!"};
 	
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count(); //C++ 11 feature: use of chrono library, better than ctime. auto is also C++ 11 feature
-	std::shuffle(possibleMessages.begin(), possibleMessages.end(),  std::default_random_engine(seed)); //C++ 11 features: shuffle and default_random_engine 
+	std::shuffle(possibleMessages.begin(), possibleMessages.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine 
 	os << possibleMessages[0] << " (Current score: " << static_cast<int>(score.curScore) << ")" << std::endl << std::endl;
 	return os;
 }

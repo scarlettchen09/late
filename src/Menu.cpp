@@ -3,7 +3,7 @@
 #include <iostream>
 #pragma warning(disable : 4996)
 
-Menu::Menu(): numberOfMenuOptions(3)
+Menu::Menu(): numberOfMenuOptions(3), selectedItemIndex(-1)
 {
 }
 
@@ -30,22 +30,22 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	menuOptions[0].setFont(font);
 	menuOptions[0].setColor(sf::Color::Red);
 	menuOptions[0].setString("Play");
-	menuOptions[0].setPosition(sf::Vector2f(width / 1.4, height / (numberOfMenuOptions + 1) * 1));
+	menuOptions[0].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 1));
 
 	menuOptions[1].setFont(font);
 	menuOptions[1].setColor(sf::Color::Black);
 	menuOptions[1].setString("How to \nPlay");
-	menuOptions[1].setPosition(sf::Vector2f(width / 1.4, height / (numberOfMenuOptions + 1) * 2));
+	menuOptions[1].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 2));
 
 	menuOptions[2].setFont(font);
 	menuOptions[2].setColor(sf::Color::Black);
 	menuOptions[2].setString("Exit");
-	menuOptions[2].setPosition(sf::Vector2f(width / 1.4, height / (numberOfMenuOptions + 1) * 3));
+	menuOptions[2].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 3));
 
 	option.setFont(font);
 	option.setColor(sf::Color::Green);
 	option.setString("Jump over obstacles as \na student rushing \nto get to class\non time by pressing \nthe space key. \n\n DONT'T BE LATE!");
-	option.setPosition(sf::Vector2f(width / 5, height / 5 * 2));
+	option.setPosition(sf::Vector2f(static_cast<float>(width) / 5, height / 5 * 2));
 
 	selectedItemIndex = 0;
 
@@ -65,7 +65,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage)
 {
-	Menu menu(Window.getSize().x, Window.getSize().y);
+	Menu menu(static_cast<float>(Window.getSize().x), static_cast<float>(Window.getSize().y));
 	sf::Event event;
 	GameShell startGameObject;
 	while (Window.isOpen())
@@ -186,7 +186,7 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		option.setFont(font);
 		option.setColor(sf::Color::Red);
 		option.setString(msg);
-		option.setPosition(sf::Vector2f(window.getSize().x / 4, window.getSize().y / 5));
+		option.setPosition(sf::Vector2f(static_cast<float>(window.getSize().x) / 4, static_cast<float>(window.getSize().y) / 5));
 		displayBackground(window);
 		drawOption(window);
 		window.display();
