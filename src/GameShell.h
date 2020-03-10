@@ -15,8 +15,9 @@
 #include <random>
 class GameShell
 {
-private:
 public:
+	GameShell();
+
 	void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu);
 	void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObstacle, sf::Vector2i screenDimensions);
 };

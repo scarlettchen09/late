@@ -68,6 +68,7 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 	Menu menu(Window.getSize().x, Window.getSize().y);
 	sf::Event event;
 	GameShell startGameObject;
+	std::cout << " done!" << std::endl;
 	while (Window.isOpen())
 	{
 		Window.clear();
@@ -134,8 +135,6 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 		}
 	}
 }
-
-
 
 void Menu::displayBackground(sf::RenderWindow& Window)
 {

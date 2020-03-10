@@ -13,6 +13,7 @@
 #include <random>
 
 void loadMainFiles(sf::Texture& bTexture, sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::string prefix);
+
 int main()
 {
 	sf::Vector2i screenDimensions(800, 600);
@@ -84,6 +85,5 @@ void loadMainFiles(sf::Texture& bTexture, sf::Texture& playerTexture, sf::Music&
 	{
 		std::cout << errorMessage << std::endl << std::endl;
 	}
-
 }
 

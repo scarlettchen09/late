@@ -1,5 +1,11 @@
 #include "GameShell.h"
 #include "Menu.h"
+
+GameShell::GameShell()
+{
+	std::cout << "Loading core game components...";
+}
+
 void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu)
 {
 	sf::Event Event;
@@ -10,7 +16,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	auto loopCounter = 0u;
 	int levelIndex = 20; //For adjusting the rate in which obstacles are generated. range should be 50 to 10 (low to high difficulty).
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
-	bool autoPlay = true;
+	bool autoPlay = false;
 	const int numObstacle = 100;
 
 	std::vector<Obstacle*> obstacleCollection; //STL Container: vector
@@ -135,24 +141,22 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	std::default_random_engine generator(seed); //C++ 11 feature: using generator and distribution using <random> header for random numbers
 	std::uniform_int_distribution<int> distribution(0, 1);
-	//makeRandomObstacles(obstacleCollection, numObstacle ,screenDimensions, squirrelDimX, squirrelDimY, birdDimX, birdDimY, squirrel, bird, generator, distribution);
 	int randObstacleType;
 
 	for (int i = 0; i < numObstacle; i++)
 	{
-		//int randObstacleType = distribution(generator);
 		switch (randObstacleType = distribution(generator); randObstacleType) //C++ 17 feature: initializing expression inside a switch statement
 		{
-		case 0:
-		{
-			obstacleCollection.push_back(new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, squirrelDimX, squirrelDimY)));
-			break;
-		}
-		case 1:
-		{
-			obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, birdDimX, birdDimY)));
-			break;
-		}
+			case 0:
+			{
+				obstacleCollection.push_back(new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, squirrelDimX + 20, squirrelDimY - 5)));
+				break;
+			}
+			case 1:
+			{
+				obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, birdDimX + 40, birdDimY - 10)));
+				break;
+			}
 		}
 	}
 	for (int i = 0; i < numObstacle; i++)
