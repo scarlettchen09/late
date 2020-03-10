@@ -4,14 +4,14 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 {
 	sf::Event Event;
 	sf::View hudView; //hudView (for Score) initialized with default pos values: top left corner of window screen
-	sf::Vector2f position(screenDimensions.x / 2, screenDimensions.y / 2);
+	sf::Vector2f position(static_cast<float>(screenDimensions.x) / 2, static_cast<float>(screenDimensions.y) / 2);
 	sf::Clock clock;
 	sf::Time time;
 	std::vector<sf::Sprite*> generatedBackground;
 	auto loopCounter = 0u;
 	int levelIndex = 20; //For adjusting the rate in which obstacles are generated. range should be 50 to 10 (low to high difficulty).
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
-	bool autoPlay = true;
+	bool autoPlay = false;
 	const int numObstacle = 100;
 	double currentSpeed = 1;
 	double speedLim = 2.8;
@@ -65,7 +65,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			obstacleCollection.clear();
 			assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
 		}*/
-		position.x += player.getXvelocity();
+		position.x += static_cast<float>(player.getXvelocity());
 		/*if (loopCounter % 400 == 0)
 		{
 			position.x = screenDimensions.x / 2;
@@ -136,7 +136,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 
 void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObstacle, sf::Vector2i screenDimensions, std::vector<sf::Sprite*>& bImage, std::vector<sf::Sprite*>& generatedBackground)
 {
-	int squirrelDimX, squirrelDimY, birdDimX, birdDimY;
+	float squirrelDimX, squirrelDimY, birdDimX, birdDimY;
 	sf::Texture squirrel;
 	sf::Texture bird;
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
@@ -169,7 +169,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	auto seed = std::chrono::system_clock::now().time_since_epoch().count(); //C++ 11 feature: use of chrono library, better than ctime. auto is also C++ 11 feature
 
-	std::default_random_engine generator(seed); //C++ 11 feature: using generator and distribution using <random> header for random numbers
+	std::default_random_engine generator(static_cast<unsigned int>(seed)); //C++ 11 feature: using generator and distribution using <random> header for random numbers
 	std::uniform_int_distribution<int> distribution(0, 1);
 	//makeRandomObstacles(obstacleCollection, numObstacle ,screenDimensions, squirrelDimX, squirrelDimY, birdDimX, birdDimY, squirrel, bird, generator, distribution);
 	int randObstacleType;
@@ -181,22 +181,22 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 		{
 		case 0:
 		{
-			obstacleCollection.push_back(new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, squirrelDimX, squirrelDimY)));
+			obstacleCollection.push_back(new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, static_cast<int>(squirrelDimX), static_cast<int>(squirrelDimY))));
 			break;
 		}
 		case 1:
 		{
-			obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, birdDimX, birdDimY)));
+			obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, static_cast<int>(birdDimX), static_cast<int>(birdDimY))));
 			break;
 		}
 		}
 	}
 	for (int i = 0; i < numObstacle; i++)
 	{
-		obstacleCollection[i]->generateObstacle(screenDimensions.x * (i + 1));
+		obstacleCollection[i]->generateObstacle(static_cast<double>(screenDimensions.x) * (static_cast<double>(i) + 1));
 	}
 
-	int screenLim = obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x + obstacleCollection[obstacleCollection.size() - 1]->getDim().x;
+	float screenLim = obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x + obstacleCollection[obstacleCollection.size() - 1]->getDim().x;
 	int currentBackgroundSize = 0;
 	auto it = bImage.cbegin();
 	while (currentBackgroundSize < screenLim)
@@ -208,7 +208,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 		}	
 
 		sf::Sprite* temp = new sf::Sprite(**it);
-		temp->setPosition(currentBackgroundSize, 0);
+		temp->setPosition(static_cast<float>(currentBackgroundSize), 0);
 		
 		generatedBackground.push_back(temp);
 		currentBackgroundSize += temp->getTexture()->getSize().x;

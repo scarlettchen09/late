@@ -24,10 +24,10 @@ sf::RectangleShape Obstacle::getObstacle()
 
 void Obstacle::generateObstacle(double pos)
 {
-	rect.setPosition(pos, screenDim.y - dim.y);
+	rect.setPosition(static_cast<float>(pos), screenDim.y - dim.y);
 	rect.setTexture(&obstacleTexture);
-	hitbox.left += pos;
-	hitbox.top += screenDim.y - dim.y;
+	hitbox.left += static_cast<int>(pos);
+	hitbox.top += static_cast<int>(screenDim.y) - static_cast<int>(dim.y);
 }
 
 Obstacle::~Obstacle()
