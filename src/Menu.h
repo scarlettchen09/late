@@ -4,7 +4,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
 #include "obstacle.h"
-#include "Menu.h"
 #include "Score.h"
 #include "player.h"
 #include "airObstacle.h"
@@ -27,8 +26,6 @@ public:
 	Menu();
 	Menu(float width, float height);
 	void mainMenu(sf::RenderWindow & Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
-	void startGame(sf::RenderWindow & Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu);
-	void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObstacle, sf::Vector2i screenDimensions);
 	void displayBackground(sf::RenderWindow& Window);
 	void drawAllOptions(sf::RenderWindow& window);
 	void drawOption(sf::RenderWindow& window);

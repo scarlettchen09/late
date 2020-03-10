@@ -13,9 +13,6 @@
 #include <random>
 
 void loadMainFiles(sf::Texture& bTexture, sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::string prefix);
-//void mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage);
-//void assignObstacleType(std::vector<Obstacle*>& obstacleCollection, int numObstacle, sf::Vector2i screenDimensions);
-//void startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, sf::Sprite bImage, Menu menu);
 int main()
 {
 	sf::Vector2i screenDimensions(800, 600);
