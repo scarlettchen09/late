@@ -10,7 +10,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	std::vector<sf::Sprite*> generatedBackground;
 	auto loopCounter = 0u;
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
-	bool autoPlay = true;
+	bool autoPlay = false;
 	const int numObstacle = 1000;
 	double currentSpeed = 1;
 	double speedLim = 3;
@@ -31,10 +31,8 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 
 	while (Window.isOpen())
 	{
-		
 		time += clock.restart();
 		loopCounter++;
-
 		while (Window.pollEvent(Event))
 		{
 			switch (Event.type)
@@ -158,12 +156,10 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	std::default_random_engine generator(static_cast<unsigned int>(seed)); //C++ 11 feature: using generator and distribution using <random> header for random numbers
 	std::uniform_int_distribution<int> distribution(0, 1);
-	//makeRandomObstacles(obstacleCollection, numObstacle ,screenDimensions, squirrelDimX, squirrelDimY, birdDimX, birdDimY, squirrel, bird, generator, distribution);
 	int randObstacleType;
 
 	for (int i = 0; i < numObstacle; i++)
 	{
-		//int randObstacleType = distribution(generator);
 		switch (randObstacleType = distribution(generator); randObstacleType) //C++ 17 feature: initializing expression inside a switch statement
 		{
 		case 0:

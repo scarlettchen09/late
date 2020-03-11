@@ -3,7 +3,6 @@
 #include <SFML/Audio.hpp>
 #include "obstacle.h"
 #include "Menu.h"
-//#include "Score.h"
 #include "player.h"
 #include "airObstacle.h"
 #include <iostream>
@@ -14,7 +13,63 @@
 
 sf::Vector2i screenDimensions(800, 600);
 
-void loadMainFiles(sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::vector<sf::Sprite*>& bImage, std::string prefix);
+namespace setup
+{
+	void loadMainFiles(sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::vector<sf::Sprite*>& bImage, std::string prefix)
+	{
+		try
+		{
+			for (int i = 1; i <= 5; i++)
+			{
+				sf::Texture* bTexture = new sf::Texture;
+				if (bTexture->loadFromFile(prefix + "Backgrounds/bg" + std::to_string(i) + ".jpg"))
+				{
+					sf::Sprite* temp = new sf::Sprite;
+					temp->setTexture(*bTexture);
+					temp->setScale(1.0f, 1.0f * screenDimensions.y / bTexture->getSize().y);
+					bImage.push_back(temp);
+				}
+				else
+				{
+					throw(std::string("Could not load background image"));
+				}
+			}
+		}
+		catch (const std::string& errorMessage)
+		{
+			std::cout << errorMessage << std::endl << std::endl;
+		}
+		try
+		{
+			if (!playerTexture.loadFromFile(prefix + "player_spritesheet.png"))
+				throw(std::string("Could not load player image"));
+		}
+		catch (const std::string& errorMessage)
+		{
+			std::cout << errorMessage << std::endl << std::endl;
+		}
+		try
+		{
+			if (!music.openFromFile(prefix + "background.wav"))
+				throw(std::string("Could not load background music"));
+		}
+		catch (const std::string& errorMessage)
+		{
+			std::cout << errorMessage << std::endl << std::endl;
+		}
+		try
+		{
+			if (!jump.loadFromFile(prefix + "jump.wav"))
+				throw(std::string("Could not load jump sound effect"));
+		}
+		catch (const std::string& errorMessage)
+		{
+			std::cout << errorMessage << std::endl << std::endl;
+		}
+
+	}
+}
+
 int main()
 {
 	
@@ -33,7 +88,7 @@ int main()
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	loadMainFiles(playerTexture, music, jump, bImage, filePrefixH);
+	setup::loadMainFiles(playerTexture, music, jump, bImage, filePrefixH);
 
 	sound.setBuffer(jump);
 	bTexture.setSmooth(true);
@@ -48,61 +103,6 @@ int main()
 	{
 		delete background;
 	}
-
 	return 0;
-}
-
-void loadMainFiles(sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::vector<sf::Sprite*>& bImage, std::string prefix)
-{
-	try 
-	{
-		for (int i = 1; i <= 5; i++)
-		{
-			sf::Texture* bTexture = new sf::Texture;
-			if (bTexture->loadFromFile(prefix + "Backgrounds/bg" + std::to_string(i) + ".jpg"))
-			{
-				sf::Sprite* temp = new sf::Sprite;
-				temp->setTexture(*bTexture);
-				temp->setScale(1.0f, 1.0f * screenDimensions.y / bTexture->getSize().y);
-				bImage.push_back(temp);
-			}
-			else
-			{
-				throw(std::string("Could not load background image"));
-			}
-		}	
-	}
-	catch (const std::string& errorMessage)
-	{
-		std::cout << errorMessage << std::endl << std::endl;
-	}
-	try
-	{
-		if (!playerTexture.loadFromFile(prefix + "player_spritesheet.png"))
-			throw(std::string("Could not load player image"));
-	}
-	catch (const std::string& errorMessage)
-	{
-		std::cout << errorMessage << std::endl << std::endl;
-	}
-	try
-	{
-		if (!music.openFromFile(prefix + "background.wav"))
-			throw(std::string("Could not load background music"));
-	}
-	catch (const std::string& errorMessage)
-	{
-		std::cout << errorMessage << std::endl << std::endl;
-	}
-	try 
-	{
-		if (!jump.loadFromFile(prefix + "jump.wav"))
-			throw(std::string("Could not load jump sound effect"));
-	}
-	catch (const std::string& errorMessage)
-	{
-		std::cout << errorMessage << std::endl << std::endl;
-	}
-
 }
 
