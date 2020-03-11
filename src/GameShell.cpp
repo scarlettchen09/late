@@ -40,8 +40,9 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			case sf::Event::Closed:
 				Window.close();
 				break;
+			case sf::Event::MouseButtonPressed:
 			case sf::Event::KeyPressed:
-				if (Event.key.code == sf::Keyboard::Space)
+				if (Event.key.code == sf::Keyboard::Space || sf::Mouse::isButtonPressed(sf::Mouse::Left))
 				{
 					if (player.jump())
 					{
@@ -169,7 +170,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 		}
 		case 1:
 		{
-			obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, static_cast<int>(birdDimX), static_cast<int>(birdDimY))));
+			obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, static_cast<int>(birdDimX - 20), static_cast<int>(birdDimY))));
 			break;
 		}
 		}

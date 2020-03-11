@@ -72,7 +72,6 @@ namespace setup
 
 int main()
 {
-	
 	sf::RenderWindow Window;
 	sf::Texture bTexture, playerTexture;
 	std::vector<sf::Sprite*> bImage;
