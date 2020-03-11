@@ -34,6 +34,6 @@ public:
 	void drawOption(sf::RenderWindow& window);
 	void moveUp();
 	void moveDown();
-	void displayGameOver(sf::RenderWindow & window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg);
+	void displayGameOver(sf::RenderWindow & window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg, Score score);
 	int GetPressedItem() { return selectedItemIndex; }
 };

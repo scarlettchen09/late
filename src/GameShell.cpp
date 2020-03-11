@@ -15,8 +15,8 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	double currentSpeed = 1;
 	double speedLim = 3;
 
-	std::string lose = "------Game Over.------\n\n\n\nYou failed to get \nto class on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.";
-	std::string win = "-------You Win.-------\n\n\n\nYou got into class\n... just on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.";
+	std::string lose = "------Game Over.------\n\n\nYou failed to get \nto class on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.\nYour final score:";
+	std::string win = "-------You Win.-------\n\n\nYou got into class\n... just on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.\nYour final score:";
 	std::vector<Obstacle*> obstacleCollection; //STL Container: vector
 	Score score;
 	Player player(screenDimensions, sf::Vector2i(108, 140), playerTexture, 7);
@@ -88,7 +88,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			if (player.getHitbox().intersects(obs->getHitbox()))
 			{
 				player.resetWindowView(position, screenDimensions, view, Window);
-				menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, lose);
+				menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, lose, score);
 			}
 			if (autoPlay && player.getCushion().intersects(obs->getHitbox()))
 			{
@@ -100,7 +100,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			obstacleCollection[obstacleCollection.size() - 1]->getDim().x <= position.x - 2 * screenDimensions.x)
 		{
 			player.resetWindowView(position, screenDimensions, view, Window);
-			menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, win);
+			menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, win, score);
 		}
 
 		score.update();
