@@ -11,7 +11,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	auto loopCounter = 0u;
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = false;
-	const int numObstacle = 1000;
+	const int numObstacle = 10;
 	double currentSpeed = 1;
 	double speedLim = 3;
 
@@ -135,7 +135,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!squirrel.loadFromFile(filePrefixH + "squirrel.png"))
+		if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
 			throw(std::string("Could not load squirrel image"));
 	}
 	catch (const std::string& errorMessage)
@@ -145,7 +145,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!bird.loadFromFile(filePrefixH + "bird.png"))
+		if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
 			throw(std::string("Could not load bird image"));
 	}
 	catch (const std::string& errorMessage)
@@ -182,6 +182,8 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	float screenLim = obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x + obstacleCollection[obstacleCollection.size() - 1]->getDim().x;
 	int currentBackgroundSize = 0;
+	std::shuffle(bImage.begin(), bImage.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine 
+	
 	auto it = bImage.cbegin();
 
 	while (currentBackgroundSize < screenLim)
@@ -189,6 +191,8 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 		it++;
 		if (it == bImage.cend())
 		{
+			std::shuffle(bImage.begin(), bImage.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine 
+	
 			it = bImage.cbegin();
 		}	
 

@@ -25,7 +25,7 @@ void Score::setScoreText()
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
 
-	std::string file = filePrefixH + "font.ttf";
+	std::string file = filePrefixLinux + "font.ttf";
 	if (!font.loadFromFile(file))
 	{
 		std::cout << "Error opening \"" << file << "\"\n";

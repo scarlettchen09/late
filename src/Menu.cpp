@@ -16,11 +16,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
 
-	std::string file = filePrefixH + "font.ttf";
+	std::string file = filePrefixLinux + "font.ttf";
 
 	try 
 	{
-		if (!font.loadFromFile(filePrefixH + "font.ttf"))
+		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
 			throw(std::string("Could not load font"));
 	}
 	catch (const std::string& errorMessage)
@@ -51,7 +51,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!menuBackground.loadFromFile(filePrefixH + "wakeup.png"))
+		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)
@@ -193,7 +193,13 @@ void Menu::helpScreen(sf::RenderWindow& window, sf::Vector2i screenDimensions, s
 					mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);
 					break;
 				}
+				break;
+			case sf::Event::Closed:
+				window.close();
+				break;
 			}
+			
+			
 		}
 	}
 }
@@ -280,6 +286,10 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 					window.close();
 					break;
 				}
+				break;
+			case sf::Event::Closed:
+				window.close();
+				break;
 			}
 		}
 	}
