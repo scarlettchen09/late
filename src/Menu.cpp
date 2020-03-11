@@ -109,16 +109,44 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 		sf::IntRect mouse(sf::Mouse::getPosition(Window), sf::Vector2i(1, 1));
 		if (option[0]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			std::cout << "Play button has been pressed" << std::endl;
-			startGameObject.startGame(Window, screenDimensions, sound, view, playerTexture, bImage, menu);
+			goto option0;
 		}
 		if (option[1]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			helpScreen(Window, option, screenDimensions, sound, view, playerTexture, bImage, event);
+			std::cout << "Help button has been pressed" << std::endl;
+			while (Window.isOpen())
+			{
+				menu.displayBackground(Window);
+				menu.drawOption(Window);
+				Window.display();
+
+				sf::IntRect mouse(sf::Mouse::getPosition(Window), sf::Vector2i(1, 1));
+				sf::IntRect* option = createIntRect(sf::Vector2i(160, 480), "Press backspace to \ngo back", menuOptions[0].getCharacterSize());
+
+				if (option->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+				{
+					mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
+				}
+
+				while (Window.pollEvent(event))
+				{
+					switch (event.type)
+					{
+					case sf::Event::KeyReleased:
+						switch (event.key.code)
+						{
+						case sf::Keyboard::Backspace:
+						backspace:
+							mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
+							break;
+						}
+					}
+				}
+			}
 		}
 		if (option[2]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			Window.close();
+			goto option2;
 		}
 
 		while (Window.pollEvent(event))
@@ -140,13 +168,43 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 					switch (menu.GetPressedItem())
 					{
 					case 0:
+						option0:
 						std::cout << "Play button has been pressed" << std::endl;
 						startGameObject.startGame(Window, screenDimensions, sound, view, playerTexture, bImage, menu);
 						break;
 
 					case 1:
-						helpScreen(Window, option, screenDimensions, sound, view, playerTexture, bImage, event);
+						std::cout << "Help button has been pressed" << std::endl;
+						while (Window.isOpen())
+						{
+							menu.displayBackground(Window);
+							menu.drawOption(Window);
+							Window.display();
+
+							sf::IntRect mouse(sf::Mouse::getPosition(Window), sf::Vector2i(1, 1));
+							sf::IntRect* option = createIntRect(sf::Vector2i(160, 480), "Press backspace to \ngo back", menuOptions[0].getCharacterSize());
+
+							if (option->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+							{
+								mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
+							}
+
+							while (Window.pollEvent(event))
+							{
+								switch (event.type)
+								{
+								case sf::Event::KeyReleased:
+									switch (event.key.code)
+									{
+									case sf::Keyboard::Backspace:
+										mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
+										break;
+									}
+								}
+							}
+						}
 					case 2:
+						option2:
 						Window.close();
 						break;
 					}
@@ -161,40 +219,6 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 	for (auto item : option)
 	{
 		delete item;
-	}
-}
-
-void Menu::helpScreen(sf::RenderWindow& Window, std::vector<sf::IntRect*> &option, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage, sf::Event event)
-{
-	std::cout << "Help button has been pressed" << std::endl;
-	while (Window.isOpen())
-	{
-		displayBackground(Window);
-		drawOption(Window);
-		Window.display();
-
-		sf::IntRect mouse(sf::Mouse::getPosition(Window), sf::Vector2i(1, 1));
-		sf::IntRect* option = createIntRect(sf::Vector2i(160, 480), "Press backspace to \ngo back", menuOptions[0].getCharacterSize());
-
-		if (option->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
-		{
-			goto backspace;
-		}
-
-		while (Window.pollEvent(event))
-		{
-			switch (event.type)
-			{
-			case sf::Event::KeyReleased:
-				switch (event.key.code)
-				{
-				case sf::Keyboard::Backspace:
-				backspace:
-					mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
-					break;
-				}
-			}
-		}
 	}
 }
 
