@@ -185,13 +185,11 @@ void Menu::helpScreen(sf::RenderWindow& window, sf::Vector2i screenDimensions, s
 		{
 			switch (event.type)
 			{
-			case sf::Event::KeyReleased:
-				switch (event.key.code)
+			case sf::Event::MouseButtonPressed:
+			case sf::Event::KeyReleased:	
+				if(event.key.code == sf::Keyboard::Backspace|| sf::Mouse::isButtonPressed(sf::Mouse::Right))
 				{
-				case sf::Keyboard::Backspace:
-				backspace:
 					mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);
-					break;
 				}
 				break;
 			case sf::Event::Closed:
@@ -273,19 +271,21 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		{
 			switch (event.type)
 			{
+			case sf::Event::MouseButtonPressed:
 			case sf::Event::KeyReleased:
 				switch (event.key.code)
 				{
 				case sf::Keyboard::Escape:
 					window.close();
 					break;
-				case sf::Keyboard::BackSpace:
-					mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);
-					break;
 				case sf::Event::Closed:
 					window.close();
 					break;
 				}
+				if(event.key.code == sf::Keyboard::Backspace|| sf::Mouse::isButtonPressed(sf::Mouse::Right))
+				{
+					mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);
+				}				
 				break;
 			case sf::Event::Closed:
 				window.close();
