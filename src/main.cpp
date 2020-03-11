@@ -3,7 +3,7 @@
 #include <SFML/Audio.hpp>
 #include "obstacle.h"
 #include "Menu.h"
-#include "Score.h"
+//#include "Score.h"
 #include "player.h"
 #include "airObstacle.h"
 #include <iostream>
@@ -33,7 +33,7 @@ int main()
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	loadMainFiles(playerTexture, music, jump, bImage, filePrefixLinux);
+	loadMainFiles(playerTexture, music, jump, bImage, filePrefixH);
 
 	sound.setBuffer(jump);
 	bTexture.setSmooth(true);

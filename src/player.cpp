@@ -144,7 +144,7 @@ void Player::update()
 		playerSprite.setTextureRect(currentTextureRect);
 		animation[0] = 0;
 	}
-	
+
 	if (playerSprite.getPosition().y < screenDim.y - playerDim.y)
 	{
 		playerYvelocity -= playerYacceleration;

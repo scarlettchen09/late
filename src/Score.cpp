@@ -25,12 +25,11 @@ void Score::setScoreText()
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
 
-	std::string file = filePrefixLinux + "font.ttf";
+	std::string file = filePrefixH + "font.ttf";
 	if (!font.loadFromFile(file))
 	{
 		std::cout << "Error opening \"" << file << "\"\n";
 	}
-
 
 	labelText.setFont(font);
 	labelText.setCharacterSize(50);
@@ -51,11 +50,11 @@ void Score::update()
 	timeElapsed.restart();
 	ScoreText.setString(std::to_string(static_cast<int>(curScore)));
 
-	if(static_cast<int>(curScore) >= curAlertScore){
+	if(static_cast<int>(curScore) >= curAlertScore)
+	{
 		curAlertScore += printAlertInterval;
 		std::cout << *this; 
 	}
-
 }
 
 sf::Text Score::getLabel()

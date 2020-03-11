@@ -9,12 +9,11 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	sf::Time time;
 	std::vector<sf::Sprite*> generatedBackground;
 	auto loopCounter = 0u;
-	int levelIndex = 20; //For adjusting the rate in which obstacles are generated. range should be 50 to 10 (low to high difficulty).
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
-	bool autoPlay = false;
-	const int numObstacle = 100;
+	bool autoPlay = true;
+	const int numObstacle = 1000;
 	double currentSpeed = 1;
-	double speedLim = 2.8;
+	double speedLim = 3;
 
 	std::string lose = "------Game Over.------\n\n\n\nYou failed to get \nto class on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.";
 	std::string win = "-------You Win.-------\n\n\n\nYou got into class\n... just on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.";
@@ -62,18 +61,8 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 				break;
 			}
 		}
-		/*if (loopCounter % 400 == 0)
-		{
-			obstacleCollection.clear();
-			assignObstacleType(obstacleCollection, numObstacle, screenDimensions);
-		}*/
 		position.x += static_cast<float>(player.getXvelocity());
-		/*if (loopCounter % 400 == 0)
-		{
-			position.x = screenDimensions.x / 2;
-			player.resetPlayerPos();
-			player.getSprite().setPosition(player.getPosition());
-		}*/
+
 		if (currentSpeed < speedLim)
 		{
 			currentSpeed = 1 + score.getScore() / 100;
@@ -85,6 +74,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 		view.setCenter(position);
 		Window.setView(view);
 		player.update();
+
 		for (auto background : generatedBackground)
 		{
 			Window.draw(*background);
@@ -107,8 +97,6 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 				sound.play();
 			}
 		}
-
-
 		if (obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x +
 			obstacleCollection[obstacleCollection.size() - 1]->getDim().x <= position.x - 2 * screenDimensions.x)
 		{
@@ -123,9 +111,6 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 		Window.display();
 		Window.clear();
 	}
-
-
-
 	for (auto obs : obstacleCollection)
 	{
 		delete obs;
@@ -151,7 +136,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
+		if (!squirrel.loadFromFile(filePrefixH + "squirrel.png"))
 			throw(std::string("Could not load squirrel image"));
 	}
 	catch (const std::string& errorMessage)
@@ -161,7 +146,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
+		if (!bird.loadFromFile(filePrefixH + "bird.png"))
 			throw(std::string("Could not load bird image"));
 	}
 	catch (const std::string& errorMessage)
@@ -201,6 +186,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	float screenLim = obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x + obstacleCollection[obstacleCollection.size() - 1]->getDim().x;
 	int currentBackgroundSize = 0;
 	auto it = bImage.cbegin();
+
 	while (currentBackgroundSize < screenLim)
 	{
 		it++;
