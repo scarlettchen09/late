@@ -19,7 +19,7 @@ namespace setup
 	{
 		try
 		{
-			for (int i = 1; i <= 5; i++)
+			for (int i = 1; i <= 6; i++)
 			{
 				sf::Texture* bTexture = new sf::Texture;
 				if (bTexture->loadFromFile(prefix + "Backgrounds/bg" + std::to_string(i) + ".jpg"))
