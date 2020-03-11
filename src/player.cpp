@@ -108,6 +108,13 @@ void Player::setMaxNoOfJump(unsigned short no)
 MEMBER FUNCTIONS
 *~*~*~*~*~*~*~*/
 
+void Player::speedDown(double rate)
+{
+	playerXvelocity *= rate;
+	//playerYacceleration *= rate;
+	//jumpHeight += rate * 6 - 6;
+}
+
 void Player::speedUp(double rate)
 {
 	playerXvelocity *= rate;

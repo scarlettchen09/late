@@ -46,6 +46,7 @@ public:
 	void setMaxNoOfJump(unsigned short no);
 	
 	void speedUp(double rate);
+	void speedDown(double rate);
 	bool jump();
 	void update();
 	void resetPlayerPos();

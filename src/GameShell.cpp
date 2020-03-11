@@ -10,10 +10,12 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	std::vector<sf::Sprite*> generatedBackground;
 	auto loopCounter = 0u;
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
-	bool autoPlay = false;
+	bool autoPlay = true;
 	const int numObstacle = 10;
 	double currentSpeed = 1;
 	double speedLim = 3;
+	double velHoldFromMax = 0;
+	bool initializeMaxFlag = true;
 
 	std::string lose = "------Game Over.------\n\n\nYou failed to get \nto class on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.\nYour final score:";
 	std::string win = "-------You Win.-------\n\n\nYou got into class\n... just on time.\n\n\nPress Escape to exit.\n\nOr backspace \nto return to main menu.\nYour final score:";
@@ -99,8 +101,22 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 		if (obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x +
 			obstacleCollection[obstacleCollection.size() - 1]->getDim().x <= position.x - 2 * screenDimensions.x)
 		{
-			player.resetWindowView(position, screenDimensions, view, Window);
-			menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, win, score);
+			player.speedDown(0.1);
+			view.setCenter(position);
+			Window.setView(view);
+			player.update();
+			std::cout << player.getXvelocity() << std::endl;
+			if (initializeMaxFlag)
+			{
+				velHoldFromMax = player.getXvelocity() * 1.05;
+				initializeMaxFlag = false;
+			}
+			std::cout << velHoldFromMax << std::endl;
+			if (player.getXvelocity() >= velHoldFromMax)
+			{
+				player.resetWindowView(position, screenDimensions, view, Window);
+				menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, win, score);
+			}
 		}
 
 		score.update();
