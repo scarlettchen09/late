@@ -25,6 +25,8 @@ private:
 public:
 	Menu();
 	Menu(float width, float height);
+	std::vector<sf::Text> getMenuOptions();
+	sf::IntRect* createIntRect(sf::Vector2i position, std::string item, int characterSize);
 	void mainMenu(sf::RenderWindow & Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage);
 	void displayBackground(sf::RenderWindow& Window);
 	void drawAllOptions(sf::RenderWindow& window);

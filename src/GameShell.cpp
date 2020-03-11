@@ -35,6 +35,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 		
 		time += clock.restart();
 		loopCounter++;
+
 		while (Window.pollEvent(Event))
 		{
 			switch (Event.type)
@@ -56,6 +57,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 					menu.mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
 				}
 				break;
+				
 			default://to avoid program crash when unknown inputs are encountered
 				break;
 			}

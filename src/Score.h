@@ -13,6 +13,7 @@ class Score
         int printAlertInterval;
         int curAlertScore;
 
+
     public:
         Score();
         void startScore();

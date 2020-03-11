@@ -44,7 +44,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	option.setFont(font);
 	option.setColor(sf::Color::Green);
-	option.setString("Jump over obstacles as \na student rushing \nto get to class\non time by pressing \nthe space key. \n\n DONT'T BE LATE!");
+	option.setString("Jump over obstacles as \na student rushing \nto get to class\non time by pressing \nthe space key. \n\nPress backspace to \ngo back");
 	option.setPosition(sf::Vector2f(static_cast<float>(width) / 5, height / 5 * 2));
 
 	selectedItemIndex = 0;
@@ -63,17 +63,63 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);
 }
 
+sf::IntRect* Menu::createIntRect(sf::Vector2i position, std::string item, int characterSize)
+{
+	int width = 0;
+	int maxWidth = 0;
+	int height = 0;
+	height += characterSize;
+	for (int i = 0; i < item.length(); i++)
+	{
+		width += characterSize;
+		if (maxWidth < width)
+			maxWidth = width;
+		if (item[i] == '\n')
+		{
+			height += characterSize;
+			width = 0;
+		}
+	}
+	sf::IntRect* temp = new sf::IntRect(position, sf::Vector2i(maxWidth, height));
+	return temp;
+}
+
+
 void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage)
 {
 	Menu menu(static_cast<float>(Window.getSize().x), static_cast<float>(Window.getSize().y));
 	sf::Event event;
 	GameShell startGameObject;
+
+	std::vector<sf::IntRect*> option;
+	menuOptions = menu.getMenuOptions();
+	for (auto item : menuOptions)
+	{
+		option.push_back(createIntRect(sf::Vector2i(item.getPosition().x, item.getPosition().y), item.getString(), item.getCharacterSize()));
+	}
+
+
 	while (Window.isOpen())
 	{
 		Window.clear();
 		menu.displayBackground(Window);
 		menu.drawAllOptions(Window);
 		Window.display();
+		
+		sf::IntRect mouse(sf::Mouse::getPosition(Window), sf::Vector2i(1, 1));
+		if (option[0]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			goto option0;
+		}
+		if (option[1]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			goto option1;
+
+		}
+		if (option[2]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			goto option2;
+		}
 
 		while (Window.pollEvent(event))
 		{
@@ -94,17 +140,27 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 					switch (menu.GetPressedItem())
 					{
 					case 0:
+						option0:
 						std::cout << "Play button has been pressed" << std::endl;
 						startGameObject.startGame(Window, screenDimensions, sound, view, playerTexture, bImage, menu);
 						break;
 
 					case 1:
+						option1:
 						std::cout << "Help button has been pressed" << std::endl;
 						while (Window.isOpen())
 						{
 							menu.displayBackground(Window);
 							menu.drawOption(Window);
 							Window.display();
+
+							sf::IntRect mouse(sf::Mouse::getPosition(Window), sf::Vector2i(1, 1));
+							sf::IntRect* option = createIntRect(sf::Vector2i(160, 480), "Press backspace to \ngo back", menuOptions[0].getCharacterSize());
+
+							if (option->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+							{
+								goto backspace;
+							}
 
 							while (Window.pollEvent(event))
 							{
@@ -114,6 +170,7 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 									switch (event.key.code)
 									{
 									case sf::Keyboard::Backspace:
+										backspace:
 										mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
 										break;
 									}
@@ -121,10 +178,10 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 							}
 						}
 					case 2:
+						option2:
 						Window.close();
 						break;
 					}
-					break;
 				}
 				break;
 			case sf::Event::Closed:
@@ -133,9 +190,17 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 			}
 		}
 	}
+
+	for (auto item : option)
+	{
+		delete item;
+	}
 }
 
-
+std::vector<sf::Text> Menu::getMenuOptions()
+{
+	return menuOptions;
+}
 
 void Menu::displayBackground(sf::RenderWindow& Window)
 {
@@ -191,6 +256,14 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		drawOption(window);
 		window.display();
 
+		sf::IntRect mouse(sf::Mouse::getPosition(window), sf::Vector2i(1, 1));
+		sf::IntRect* option = createIntRect(sf::Vector2i(160, 480), "Or backspace \nto return to main menu.", menuOptions[0].getCharacterSize());
+		if (option->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
+		{
+			goto backspace;
+		}
+
+
 		while (window.pollEvent(event))
 		{
 			switch (event.type)
@@ -202,6 +275,7 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 					window.close();
 					break;
 				case sf::Keyboard::BackSpace:
+					backspace:
 					mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);
 					break;
 				case sf::Event::Closed:
