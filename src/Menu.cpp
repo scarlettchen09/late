@@ -16,11 +16,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
 
-	std::string file = filePrefixH + "font.ttf";
+	std::string file = filePrefixLinux + "font.ttf";
 
 	try 
 	{
-		if (!font.loadFromFile(filePrefixH + "font.ttf"))
+		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
 			throw(std::string("Could not load font"));
 	}
 	catch (const std::string& errorMessage)
@@ -51,7 +51,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!menuBackground.loadFromFile(filePrefixH + "wakeup.png"))
+		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)
@@ -258,7 +258,7 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		option.setFont(font);
 		option.setFillColor(sf::Color::Red);
 		option.setString(msg);
-		option.setColor(sf::Color::Red);
+		option.setFillColor(sf::Color::Red);
 		option.setString(msgWithScore);
 		option.setPosition(sf::Vector2f(static_cast<float>(window.getSize().x) / 4, static_cast<float>(window.getSize().y) / 5));
 		displayBackground(window);
