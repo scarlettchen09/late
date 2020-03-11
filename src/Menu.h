@@ -28,6 +28,7 @@ public:
 	std::vector<sf::Text> getMenuOptions();
 	sf::IntRect* createIntRect(sf::Vector2i position, std::string item, int characterSize);
 	void mainMenu(sf::RenderWindow & Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage);
+	void helpScreen(sf::RenderWindow & Window, std::vector<sf::IntRect*>& option, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, sf::Event event);
 	void displayBackground(sf::RenderWindow& Window);
 	void drawAllOptions(sf::RenderWindow& window);
 	void drawOption(sf::RenderWindow& window);
