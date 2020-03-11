@@ -28,22 +28,22 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 		std::cout << errorMessage << std::endl << std::endl;
 	}
 	menuOptions[0].setFont(font);
-	menuOptions[0].setColor(sf::Color::Red);
+	menuOptions[0].setFillColor(sf::Color::Red);
 	menuOptions[0].setString("Play");
 	menuOptions[0].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 1));
 
 	menuOptions[1].setFont(font);
-	menuOptions[1].setColor(sf::Color::Black);
+	menuOptions[1].setFillColor(sf::Color::Black);
 	menuOptions[1].setString("How to \nPlay");
 	menuOptions[1].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 2));
 
 	menuOptions[2].setFont(font);
-	menuOptions[2].setColor(sf::Color::Black);
+	menuOptions[2].setFillColor(sf::Color::Black);
 	menuOptions[2].setString("Exit");
 	menuOptions[2].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 3));
 
 	option.setFont(font);
-	option.setColor(sf::Color::Green);
+	option.setFillColor(sf::Color::Green);
 	option.setString("Jump over obstacles as \na student rushing \nto get to class\non time by pressing \nthe space key. \n\nPress backspace to \ngo back");
 	option.setPosition(sf::Vector2f(static_cast<float>(width) / 5, height / 5 * 2));
 
@@ -233,9 +233,9 @@ void Menu::moveUp()
 {
 	if (selectedItemIndex - 1 >= 0)
 	{
-		menuOptions[selectedItemIndex].setColor(sf::Color::Black);
+		menuOptions[selectedItemIndex].setFillColor(sf::Color::Black);
 		selectedItemIndex--;
-		menuOptions[selectedItemIndex].setColor(sf::Color::Red);
+		menuOptions[selectedItemIndex].setFillColor(sf::Color::Red);
 	}
 }
 
@@ -243,9 +243,9 @@ void Menu::moveDown()
 {
 	if (selectedItemIndex + 1 < numberOfMenuOptions)
 	{
-		menuOptions[selectedItemIndex].setColor(sf::Color::Black);
+		menuOptions[selectedItemIndex].setFillColor(sf::Color::Black);
 		selectedItemIndex++;
-		menuOptions[selectedItemIndex].setColor(sf::Color::Red);
+		menuOptions[selectedItemIndex].setFillColor(sf::Color::Red);
 	}
 }
 
@@ -256,7 +256,7 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		window.clear();
 		sf::Event event;
 		option.setFont(font);
-		option.setColor(sf::Color::Red);
+		option.setFillColor(sf::Color::Red);
 		option.setString(msg);
 		option.setPosition(sf::Vector2f(static_cast<float>(window.getSize().x) / 4, static_cast<float>(window.getSize().y) / 5));
 		displayBackground(window);
