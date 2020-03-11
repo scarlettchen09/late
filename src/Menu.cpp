@@ -109,7 +109,8 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 		sf::IntRect mouse(sf::Mouse::getPosition(Window), sf::Vector2i(1, 1));
 		if (option[0]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			goto option0;
+			std::cout << "Play button has been pressed" << std::endl;
+			startGameObject.startGame(Window, screenDimensions, sound, view, playerTexture, bImage, menu);
 		}
 		if (option[1]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
@@ -118,9 +119,8 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 		}
 		if (option[2]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			goto option2;
+			Window.close();
 		}
-
 		while (Window.pollEvent(event))
 		{
 			switch (event.type)
@@ -140,7 +140,6 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 					switch (menu.GetPressedItem())
 					{
 					case 0:
-						option0:
 						std::cout << "Play button has been pressed" << std::endl;
 						startGameObject.startGame(Window, screenDimensions, sound, view, playerTexture, bImage, menu);
 						break;
@@ -149,7 +148,6 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 						std::cout << "Help button has been pressed" << std::endl;
 						helpScreen(Window, screenDimensions, sound, view, playerTexture, bImage, menu, event);
 					case 2:
-						option2:
 						Window.close();
 						break;
 					}
@@ -263,10 +261,8 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		sf::IntRect* option = createIntRect(sf::Vector2i(160, 480), "Or backspace \nto return to main menu.", menuOptions[0].getCharacterSize());
 		if (option->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			goto backspace;
+			mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);
 		}
-
-
 		while (window.pollEvent(event))
 		{
 			switch (event.type)
@@ -278,7 +274,6 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 					window.close();
 					break;
 				case sf::Keyboard::BackSpace:
-					backspace:
 					mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);
 					break;
 				case sf::Event::Closed:
