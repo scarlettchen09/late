@@ -16,11 +16,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
 
-	std::string file = filePrefixLinux + "font.ttf";
+	std::string file = filePrefixH + "font.ttf";
 
 	try 
 	{
-		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
+		if (!font.loadFromFile(filePrefixH + "font.ttf"))
 			throw(std::string("Could not load font"));
 	}
 	catch (const std::string& errorMessage)
@@ -51,7 +51,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
+		if (!menuBackground.loadFromFile(filePrefixH + "wakeup.png"))
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)
@@ -219,7 +219,6 @@ void Menu::drawAllOptions(sf::RenderWindow& window)
 	{
 		window.draw(i);
 	}
-
 }
 
 void Menu::drawOption(sf::RenderWindow& window)

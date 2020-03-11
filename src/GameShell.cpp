@@ -105,13 +105,11 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			view.setCenter(position);
 			Window.setView(view);
 			player.update();
-			std::cout << player.getXvelocity() << std::endl;
 			if (initializeMaxFlag)
 			{
-				velHoldFromMax = player.getXvelocity() * 1.05;
+				velHoldFromMax = player.getXvelocity() * 1.04;
 				initializeMaxFlag = false;
 			}
-			std::cout << velHoldFromMax << std::endl;
 			if (player.getXvelocity() >= velHoldFromMax)
 			{
 				player.resetWindowView(position, screenDimensions, view, Window);
@@ -151,7 +149,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
+		if (!squirrel.loadFromFile(filePrefixH + "squirrel.png"))
 			throw(std::string("Could not load squirrel image"));
 	}
 	catch (const std::string& errorMessage)
@@ -161,7 +159,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
+		if (!bird.loadFromFile(filePrefixH + "bird.png"))
 			throw(std::string("Could not load bird image"));
 	}
 	catch (const std::string& errorMessage)
@@ -197,6 +195,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	}
 
 	float screenLim = obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x + obstacleCollection[obstacleCollection.size() - 1]->getDim().x;
+	screenLim *= 1.5;
 	int currentBackgroundSize = 0;
 	std::shuffle(bImage.begin(), bImage.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine 
 	
