@@ -16,11 +16,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
 
-	std::string file = filePrefixLinux + "font.ttf";
+	std::string file = filePrefixH + "font.ttf";
 
 	try 
 	{
-		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
+		if (!font.loadFromFile(filePrefixH + "font.ttf"))
 			throw(std::string("Could not load font"));
 	}
 	catch (const std::string& errorMessage)
@@ -51,7 +51,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
+		if (!menuBackground.loadFromFile(filePrefixH + "wakeup.png"))
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)
@@ -247,8 +247,10 @@ void Menu::moveDown()
 	}
 }
 
-void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg)
+void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg, Score score)
 {
+	std::string msgWithScore;
+	msgWithScore = msg + " " + std::to_string(static_cast<int>(score.getScore())); //another C++11 feature
 	while (window.isOpen())
 	{
 		window.clear();
@@ -256,13 +258,15 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		option.setFont(font);
 		option.setFillColor(sf::Color::Red);
 		option.setString(msg);
+		option.setColor(sf::Color::Red);
+		option.setString(msgWithScore);
 		option.setPosition(sf::Vector2f(static_cast<float>(window.getSize().x) / 4, static_cast<float>(window.getSize().y) / 5));
 		displayBackground(window);
 		drawOption(window);
 		window.display();
 
 		sf::IntRect mouse(sf::Mouse::getPosition(window), sf::Vector2i(1, 1));
-		sf::IntRect* option = createIntRect(sf::Vector2i(160, 480), "Or backspace \nto return to main menu.", menuOptions[0].getCharacterSize());
+		sf::IntRect* option = createIntRect(sf::Vector2i(160, 480), msg, menuOptions[0].getCharacterSize());
 		if (option->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);

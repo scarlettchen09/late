@@ -87,7 +87,7 @@ int main()
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	setup::loadMainFiles(playerTexture, music, jump, bImage, filePrefixLinux);
+	setup::loadMainFiles(playerTexture, music, jump, bImage, filePrefixH);
 
 	sound.setBuffer(jump);
 	bTexture.setSmooth(true);
