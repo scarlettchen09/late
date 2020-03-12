@@ -3,11 +3,11 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
-#include "obstacle.h"
+#include "Obstacle.h"
 #include "Menu.h"
 #include "Score.h"
-#include "player.h"
-#include "airObstacle.h"
+#include "Player.h"
+#include "AirObstacle.h"
 #include <iostream>
 #include <string>
 #include <vector>//C++ 11 Feature: range based for loop and auto

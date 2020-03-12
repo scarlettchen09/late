@@ -1,5 +1,5 @@
-#include "GameShell.h"
 #include "Menu.h"
+#include "GameShell.h"
 #include <iostream>
 #pragma warning(disable : 4996)
 
@@ -16,11 +16,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "./resources/";
 
-	std::string file = filePrefixH + "font.ttf";
+	std::string file = filePrefixLinux + "font.ttf";
 
 	try 
 	{
-		if (!font.loadFromFile(filePrefixH + "font.ttf"))
+		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
 			throw(std::string("Could not load font"));
 	}
 	catch (const std::string& errorMessage)
@@ -51,7 +51,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!menuBackground.loadFromFile(filePrefixH + "wakeup.png"))
+		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)

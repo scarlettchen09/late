@@ -149,7 +149,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!squirrel.loadFromFile(filePrefixH + "squirrel.png"))
+		if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
 			throw(std::string("Could not load squirrel image"));
 	}
 	catch (const std::string& errorMessage)
@@ -159,7 +159,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!bird.loadFromFile(filePrefixH + "bird.png"))
+		if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
 			throw(std::string("Could not load bird image"));
 	}
 	catch (const std::string& errorMessage)

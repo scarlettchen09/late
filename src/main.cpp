@@ -1,10 +1,10 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Audio.hpp>
-#include "obstacle.h"
+#include "Obstacle.h"
 #include "Menu.h"
-#include "player.h"
-#include "airObstacle.h"
+#include "Player.h"
+#include "AirObstacle.h"
 #include <iostream>
 #include <string>
 #include <vector>//C++ 11 Feature: range based for loop and auto
@@ -96,7 +96,7 @@ int main()
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	setup::loadMainFiles(playerTexture, music, jump, die, bImage, filePrefixH);
+	setup::loadMainFiles(playerTexture, music, jump, die, bImage, filePrefixLinux);
 
 	sound[0].setBuffer(jump);
 	sound[1].setBuffer(die);

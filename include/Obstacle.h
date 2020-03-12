@@ -1,5 +1,4 @@
-#ifndef OBSTACLE_H
-#define OBSTACLE_H
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <iostream>
@@ -23,4 +22,4 @@ public:
 
 	virtual void generateObstacle(double pos);
 };
-#endif
+

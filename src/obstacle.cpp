@@ -1,4 +1,4 @@
-#include "obstacle.h"
+#include "Obstacle.h"
 
 Obstacle::Obstacle(sf::Vector2i screen, sf::Vector2f obstacleDim, const sf::Texture obstacle, sf::IntRect box)
 	:screenDim(screen), dim(obstacleDim), obstacleTexture(obstacle), hitbox(box)

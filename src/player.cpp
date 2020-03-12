@@ -1,4 +1,4 @@
-#include "player.h"
+#include "Player.h"
 /*
 Constructor: constructs the player object with an optional hit box paramater.
 Initializes every member variable and defaulted the player attributes. 
