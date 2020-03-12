@@ -14,7 +14,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 		menuOptions.push_back(text);
 	}
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
-	std::string filePrefixLinux = "../resources/";
+	std::string filePrefixLinux = "./resources/";
 
 	std::string file = filePrefixLinux + "font.ttf";
 

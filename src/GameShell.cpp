@@ -141,7 +141,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	sf::Texture squirrel;
 	sf::Texture bird;
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
-	std::string filePrefixLinux = "../resources/";
+	std::string filePrefixLinux = "./resources/";
 
 	squirrelDimX = 67;
 	squirrelDimY = 50;

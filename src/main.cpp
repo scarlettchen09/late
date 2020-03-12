@@ -91,7 +91,7 @@ int main()
 	sf::Sound sound[2];
 	Menu menu;
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
-	std::string filePrefixLinux = "../resources/";
+	std::string filePrefixLinux = "./resources/";
 	
 	Window.create(sf::VideoMode(screenDimensions.x, screenDimensions.y), "Late!");
 	Window.setKeyRepeatEnabled(false);
