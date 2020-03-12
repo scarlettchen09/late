@@ -15,7 +15,7 @@ sf::Vector2i screenDimensions(800, 600);
 
 namespace setup
 {
-	void loadMainFiles(sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, std::vector<sf::Sprite*>& bImage, std::string prefix)
+	void loadMainFiles(sf::Texture& playerTexture, sf::Music& music, sf::SoundBuffer& jump, sf::SoundBuffer& die, std::vector<sf::Sprite*>& bImage, std::string prefix)
 	{
 		try
 		{
@@ -66,6 +66,15 @@ namespace setup
 		{
 			std::cout << errorMessage << std::endl << std::endl;
 		}
+		try
+		{
+			if (!die.loadFromFile(prefix + "die.wav"))
+				throw(std::string("Could not load death sound effect"));
+		}
+		catch (const std::string & errorMessage)
+		{
+			std::cout << errorMessage << std::endl << std::endl;
+		}
 
 	}
 }
@@ -76,9 +85,10 @@ int main()
 	sf::Texture bTexture, playerTexture;
 	std::vector<sf::Sprite*> bImage;
 	sf::SoundBuffer jump;
+	sf::SoundBuffer die;
 	sf::Music music;
 	sf::View view;
-	sf::Sound sound;
+	sf::Sound sound[2];
 	Menu menu;
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
@@ -87,9 +97,10 @@ int main()
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	setup::loadMainFiles(playerTexture, music, jump, bImage, filePrefixH);
+	setup::loadMainFiles(playerTexture, music, jump, die, bImage, filePrefixLinux);
 
-	sound.setBuffer(jump);
+	sound[0].setBuffer(jump);
+	sound[1].setBuffer(die);
 	bTexture.setSmooth(true);
 	view.reset(sf::FloatRect(0, 0, screenDimensions.x, screenDimensions.y));
 	view.setViewport(sf::FloatRect(0, 0, 1.0f, 1.0f));

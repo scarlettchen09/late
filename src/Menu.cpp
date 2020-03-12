@@ -16,11 +16,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "../resources/";
 
-	std::string file = filePrefixH + "font.ttf";
+	std::string file = filePrefixLinux + "font.ttf";
 
 	try 
 	{
-		if (!font.loadFromFile(filePrefixH + "font.ttf"))
+		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
 			throw(std::string("Could not load font"));
 	}
 	catch (const std::string& errorMessage)
@@ -51,7 +51,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!menuBackground.loadFromFile(filePrefixH + "wakeup.png"))
+		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)
@@ -85,7 +85,7 @@ sf::IntRect* Menu::createIntRect(sf::Vector2i position, std::string item, int ch
 }
 
 
-void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage)
+void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage)
 {
 	Menu menu(static_cast<float>(Window.getSize().x), static_cast<float>(Window.getSize().y));
 	sf::Event event;
@@ -165,7 +165,7 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 	}
 }
 
-void Menu::helpScreen(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, Menu menu, sf::Event event)
+void Menu::helpScreen(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, Menu menu, sf::Event event)
 {
 	while (window.isOpen())
 	{
@@ -219,6 +219,7 @@ void Menu::drawAllOptions(sf::RenderWindow& window)
 	{
 		window.draw(i);
 	}
+
 }
 
 void Menu::drawOption(sf::RenderWindow& window)
@@ -246,7 +247,7 @@ void Menu::moveDown()
 	}
 }
 
-void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg, Score score)
+void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg, Score score)
 {
 	std::string msgWithScore;
 	msgWithScore = msg + " " + std::to_string(static_cast<int>(score.getScore())); //another C++11 feature

@@ -1,6 +1,6 @@
 #include "GameShell.h"
 #include "Menu.h"
-void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound, sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, Menu menu)
+void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, Menu menu)
 {
 	sf::Event Event;
 	sf::View hudView; //hudView (for Score) initialized with default pos values: top left corner of window screen
@@ -11,7 +11,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	auto loopCounter = 0u;
 	float frametime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
-	const int numObstacle = 10;
+	const int numObstacle = 100;
 	double currentSpeed = 1;
 	double speedLim = 3;
 	double velHoldFromMax = 0;
@@ -48,7 +48,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 				{
 					if (player.jump())
 					{
-						sound.play();
+						sound[0].play();
 					}
 				}
 				if (Event.key.code == sf::Keyboard::Escape)
@@ -90,12 +90,13 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			if (player.getHitbox().intersects(obs->getHitbox()))
 			{
 				player.resetWindowView(position, screenDimensions, view, Window);
+				sound[1].play();
 				menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, lose, score);
 			}
 			if (autoPlay && player.getCushion().intersects(obs->getHitbox()))
 			{
 				player.jump();
-				sound.play();
+				sound[0].play();
 			}
 		}
 		if (obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x +
@@ -107,7 +108,7 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			player.update();
 			if (initializeMaxFlag)
 			{
-				velHoldFromMax = player.getXvelocity() * 1.04;
+				velHoldFromMax = player.getXvelocity() * 1.05;
 				initializeMaxFlag = false;
 			}
 			if (player.getXvelocity() >= velHoldFromMax)
@@ -149,7 +150,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!squirrel.loadFromFile(filePrefixH + "squirrel.png"))
+		if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
 			throw(std::string("Could not load squirrel image"));
 	}
 	catch (const std::string& errorMessage)
@@ -159,7 +160,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!bird.loadFromFile(filePrefixH + "bird.png"))
+		if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
 			throw(std::string("Could not load bird image"));
 	}
 	catch (const std::string& errorMessage)
@@ -195,7 +196,6 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	}
 
 	float screenLim = obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x + obstacleCollection[obstacleCollection.size() - 1]->getDim().x;
-	screenLim *= 1.5;
 	int currentBackgroundSize = 0;
 	std::shuffle(bImage.begin(), bImage.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine 
 	
