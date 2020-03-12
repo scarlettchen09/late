@@ -11,11 +11,7 @@ void GameShell::startGame(sf::RenderWindow& window, sf::Vector2i screenDimension
 	auto loopCounter = 0u;
 	float frameTime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
-<<<<<<< Updated upstream
 	const int numObstacle = 150;
-=======
-	const int numObstacle = 120;
->>>>>>> Stashed changes
 	double currentSpeed = 1;
 	double speedLim = 3;
 	double velHoldFromMax = 0;
@@ -112,14 +108,9 @@ void GameShell::startGame(sf::RenderWindow& window, sf::Vector2i screenDimension
 			player.update();
 			if (initializeMaxFlag)
 			{
-<<<<<<< Updated upstream
 				velHoldFromMax = player.getXvelocity() * 1.03;
-=======
-				velHoldFromMax = 0;
->>>>>>> Stashed changes
 				initializeMaxFlag = false;
 			}
-			std::cout << "getVeolocity " << player.getXvelocity() << " VelHold " << velHoldFromMax << std::endl;
 			if (player.getXvelocity() >= velHoldFromMax)
 			{
 				player.resetWindowView(position, screenDimensions, view, window);
@@ -127,23 +118,11 @@ void GameShell::startGame(sf::RenderWindow& window, sf::Vector2i screenDimension
 			}
 		}
 		score.update();
-<<<<<<< Updated upstream
 		window.setView(hudView);
 		window.draw(score.getText());
 		window.draw(score.getLabel());
 		window.display();
 		window.clear();
-=======
-		if (initializeMaxFlag)
-		{
-			score.update();
-		}
-		Window.setView(hudView);
-		Window.draw(score.getText());
-		Window.draw(score.getLabel());
-		Window.display();
-		Window.clear();
->>>>>>> Stashed changes
 	}
 	for (auto obs : obstacleCollection)
 	{
@@ -171,12 +150,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	try
 	{
 		if (!squirrel.loadFromFile(filePrefixH + "squirrel.png"))
-<<<<<<< Updated upstream
-=======
-		{
->>>>>>> Stashed changes
 			throw(std::string("Could not load squirrel image"));
-		}
 	}
 	catch (const std::string& errorMessage)
 	{
@@ -186,12 +160,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	try
 	{
 		if (!bird.loadFromFile(filePrefixH + "bird.png"))
-<<<<<<< Updated upstream
-=======
-		{
->>>>>>> Stashed changes
 			throw(std::string("Could not load bird image"));
-		}
 	}
 	catch (const std::string& errorMessage)
 	{
@@ -230,11 +199,7 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	std::shuffle(bImage.begin(), bImage.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine 
 	
 	auto it = bImage.cbegin();
-<<<<<<< Updated upstream
 	screenLim *= 1.5;// to avoid black screen
-=======
-	screenLim *= 1.5;
->>>>>>> Stashed changes
 	while (currentBackgroundSize < screenLim)
 	{
 		it++;
