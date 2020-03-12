@@ -30,17 +30,17 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	menuOptions[0].setFont(font);
 	menuOptions[0].setFillColor(sf::Color::Red);
 	menuOptions[0].setString("Play");
-	menuOptions[0].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 1));
+	menuOptions[0].setPosition(sf::Vector2f(width / 15, height / (MAX_NUMBER_OF_ITEMS + 1) * 0.6));
 
 	menuOptions[1].setFont(font);
 	menuOptions[1].setFillColor(sf::Color::Black);
 	menuOptions[1].setString("How to \nPlay");
-	menuOptions[1].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 2));
+	menuOptions[1].setPosition(sf::Vector2f(width / 15, height / (MAX_NUMBER_OF_ITEMS + 1) * 1.2));
 
 	menuOptions[2].setFont(font);
 	menuOptions[2].setFillColor(sf::Color::Black);
 	menuOptions[2].setString("Exit");
-	menuOptions[2].setPosition(sf::Vector2f(static_cast<float>(width) / 1.4f, height / (numberOfMenuOptions + 1) * 3));
+	menuOptions[2].setPosition(sf::Vector2f(width / 15, height / (MAX_NUMBER_OF_ITEMS + 1) * 2.1));
 
 	option.setFont(font);
 	option.setFillColor(sf::Color::Green);
@@ -58,7 +58,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	{
 		std::cout << errorMessage << std::endl << std::endl;
 	}
-
+	menuBackground.setSmooth(true);
 	menuBack.setTexture(menuBackground);
 	menuBack.setScale(width / menuBack.getLocalBounds().width, height / menuBack.getLocalBounds().height);
 }
