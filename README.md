@@ -16,5 +16,6 @@ ar rcs lib/Score.a src/Score.o
 g++ src/*.cpp -Iinclude -Llib -L/usr/local/lib -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system ./lib/Score.a -o late-game 
 
 4) Run the game! :)
+
 ./late-game
 ---
