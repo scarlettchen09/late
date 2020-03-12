@@ -1,6 +1,6 @@
 #include "GameShell.h"
 #include "Menu.h"
-void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, Menu menu)
+void GameShell::startGame(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, Menu menu)
 {
 	sf::Event Event;
 	sf::View hudView; //hudView (for Score) initialized with default pos values: top left corner of window screen
@@ -9,9 +9,13 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	sf::Time time;
 	std::vector<sf::Sprite*> generatedBackground;
 	auto loopCounter = 0u;
-	float frametime = 1.0f / 60.0f; //Updates 60 times per second
+	float frameTime = 1.0f / 60.0f; //Updates 60 times per second
 	bool autoPlay = true;
-	const int numObstacle = 100;
+<<<<<<< Updated upstream
+	const int numObstacle = 150;
+=======
+	const int numObstacle = 120;
+>>>>>>> Stashed changes
 	double currentSpeed = 1;
 	double speedLim = 3;
 	double velHoldFromMax = 0;
@@ -31,16 +35,16 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 	time = clock.restart();
 	score.startScore();
 
-	while (Window.isOpen())
+	while (window.isOpen())
 	{
 		time += clock.restart();
 		loopCounter++;
-		while (Window.pollEvent(Event))
+		while (window.pollEvent(Event))
 		{
 			switch (Event.type)
 			{
 			case sf::Event::Closed:
-				Window.close();
+				window.close();
 				break;
 			case sf::Event::MouseButtonPressed:
 			case sf::Event::KeyPressed:
@@ -53,8 +57,8 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 				}
 				if (Event.key.code == sf::Keyboard::Escape)
 				{
-					player.resetWindowView(position, screenDimensions, view, Window);
-					menu.mainMenu(Window, screenDimensions, sound, view, playerTexture, bImage);
+					player.resetWindowView(position, screenDimensions, view, window);
+					menu.mainMenu(window, screenDimensions, sound, view, playerTexture, bImage);
 				}
 				break;
 				
@@ -73,25 +77,25 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			player.speedUp(currentSpeed);
 		}
 		view.setCenter(position);
-		Window.setView(view);
+		window.setView(view);
 		player.update();
 
 		for (auto background : generatedBackground)
 		{
-			Window.draw(*background);
+			window.draw(*background);
 		}
-		Window.draw(player.getSprite());
-		time -= sf::seconds(frametime);
+		window.draw(player.getSprite());
+		time -= sf::seconds(frameTime);
 
 		for (auto obs : obstacleCollection) //C++ 11 Feature: range based for loop and auto
 		{
-			Window.draw(obs->getObstacle());
+			window.draw(obs->getObstacle());
 
 			if (player.getHitbox().intersects(obs->getHitbox()))
 			{
-				player.resetWindowView(position, screenDimensions, view, Window);
+				player.resetWindowView(position, screenDimensions, view, window);
 				sound[1].play();
-				menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, lose, score);
+				menu.displayGameOver(window, screenDimensions, sound, view, playerTexture, bImage, lose, score);
 			}
 			if (autoPlay && player.getCushion().intersects(obs->getHitbox()))
 			{
@@ -100,30 +104,46 @@ void GameShell::startGame(sf::RenderWindow& Window, sf::Vector2i screenDimension
 			}
 		}
 		if (obstacleCollection[obstacleCollection.size() - 1]->getObstacle().getPosition().x +
-			obstacleCollection[obstacleCollection.size() - 1]->getDim().x <= position.x - 2 * screenDimensions.x)
+			obstacleCollection[obstacleCollection.size() - 1]->getDim().x + numObstacle <= position.x - 2 * screenDimensions.x)
 		{
 			player.speedDown(0.1);
 			view.setCenter(position);
-			Window.setView(view);
+			window.setView(view);
 			player.update();
 			if (initializeMaxFlag)
 			{
-				velHoldFromMax = player.getXvelocity() * 1.05;
+<<<<<<< Updated upstream
+				velHoldFromMax = player.getXvelocity() * 1.03;
+=======
+				velHoldFromMax = 0;
+>>>>>>> Stashed changes
 				initializeMaxFlag = false;
 			}
+			std::cout << "getVeolocity " << player.getXvelocity() << " VelHold " << velHoldFromMax << std::endl;
 			if (player.getXvelocity() >= velHoldFromMax)
 			{
-				player.resetWindowView(position, screenDimensions, view, Window);
-				menu.displayGameOver(Window, screenDimensions, sound, view, playerTexture, bImage, win, score);
+				player.resetWindowView(position, screenDimensions, view, window);
+				menu.displayGameOver(window, screenDimensions, sound, view, playerTexture, bImage, win, score);
 			}
 		}
-
 		score.update();
+<<<<<<< Updated upstream
+		window.setView(hudView);
+		window.draw(score.getText());
+		window.draw(score.getLabel());
+		window.display();
+		window.clear();
+=======
+		if (initializeMaxFlag)
+		{
+			score.update();
+		}
 		Window.setView(hudView);
 		Window.draw(score.getText());
 		Window.draw(score.getLabel());
 		Window.display();
 		Window.clear();
+>>>>>>> Stashed changes
 	}
 	for (auto obs : obstacleCollection)
 	{
@@ -150,8 +170,13 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!squirrel.loadFromFile(filePrefixLinux + "squirrel.png"))
+		if (!squirrel.loadFromFile(filePrefixH + "squirrel.png"))
+<<<<<<< Updated upstream
+=======
+		{
+>>>>>>> Stashed changes
 			throw(std::string("Could not load squirrel image"));
+		}
 	}
 	catch (const std::string& errorMessage)
 	{
@@ -160,8 +185,13 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 
 	try
 	{
-		if (!bird.loadFromFile(filePrefixLinux + "bird.png"))
+		if (!bird.loadFromFile(filePrefixH + "bird.png"))
+<<<<<<< Updated upstream
+=======
+		{
+>>>>>>> Stashed changes
 			throw(std::string("Could not load bird image"));
+		}
 	}
 	catch (const std::string& errorMessage)
 	{
@@ -178,16 +208,16 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	{
 		switch (randObstacleType = distribution(generator); randObstacleType) //C++ 17 feature: initializing expression inside a switch statement
 		{
-		case 0:
-		{
-			obstacleCollection.push_back(new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, static_cast<int>(squirrelDimX), static_cast<int>(squirrelDimY))));
-			break;
-		}
-		case 1:
-		{
-			obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, static_cast<int>(birdDimX - 20), static_cast<int>(birdDimY))));
-			break;
-		}
+			case 0:
+			{
+				obstacleCollection.push_back(new Obstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(squirrelDimX, squirrelDimY), squirrel, sf::IntRect(30, 0, static_cast<int>(squirrelDimX), static_cast<int>(squirrelDimY))));
+				break;
+			}
+			case 1:
+			{
+				obstacleCollection.push_back(new AirObstacle(sf::Vector2i(screenDimensions.x, screenDimensions.y), sf::Vector2f(birdDimX, birdDimY), bird, sf::IntRect(20, 0, static_cast<int>(birdDimX - 20), static_cast<int>(birdDimY))));
+				break;
+			}
 		}
 	}
 	for (int i = 0; i < numObstacle; i++)
@@ -200,14 +230,17 @@ void GameShell::assignObstacleType(std::vector<Obstacle*>& obstacleCollection, i
 	std::shuffle(bImage.begin(), bImage.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine 
 	
 	auto it = bImage.cbegin();
-
+<<<<<<< Updated upstream
+	screenLim *= 1.5;// to avoid black screen
+=======
+	screenLim *= 1.5;
+>>>>>>> Stashed changes
 	while (currentBackgroundSize < screenLim)
 	{
 		it++;
 		if (it == bImage.cend())
 		{
-			std::shuffle(bImage.begin(), bImage.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine 
-	
+			std::shuffle(bImage.begin(), bImage.end(),  std::default_random_engine(static_cast<unsigned int>(seed))); //C++ 11 features: shuffle and default_random_engine
 			it = bImage.cbegin();
 		}	
 

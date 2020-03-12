@@ -2,7 +2,8 @@
 
 AirObstacle::AirObstacle(sf::Vector2i screen, sf::Vector2f obstacleDim, const sf::Texture obstacle, sf::IntRect box)
 	: Obstacle(screen, obstacleDim, obstacle, box)
-{ }
+{ 
+}
 
 void AirObstacle::generateObstacle(double pos)
 {

@@ -111,8 +111,6 @@ MEMBER FUNCTIONS
 void Player::speedDown(double rate)
 {
 	playerXvelocity *= rate;
-	//playerYacceleration *= rate;
-	//jumpHeight += rate * 6 - 6;
 }
 
 void Player::speedUp(double rate)
@@ -178,10 +176,10 @@ void Player::resetPlayerPos()
 	playerSprite.setPosition(playerPos);
 }
 
-void Player::resetWindowView(sf::Vector2f position, sf::Vector2i screenDimensions, sf::View view, sf::RenderWindow& Window)
+void Player::resetWindowView(sf::Vector2f position, sf::Vector2i screenDimensions, sf::View view, sf::RenderWindow& window)
 {
 	position.x = screenDimensions.x / 2;
 	position.y = screenDimensions.y / 2;
 	view.setCenter(position);
-	Window.setView(view);
+	window.setView(view);
 }

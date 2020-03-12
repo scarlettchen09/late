@@ -28,7 +28,6 @@ class Player
 public:
 	Player(sf::Vector2i screenDim, sf::Vector2i pDim, sf::Texture &playerText, int noImg, sf::Vector2i box = sf::Vector2i(0, 0));
 
-	// Accessors
 	sf::Vector2i getDim();
 	sf::Sprite getSprite();
 	double getXvelocity();
@@ -37,7 +36,6 @@ public:
 	sf::IntRect getHitbox();
 	sf::IntRect getCushion();
 
-	// Mutators
 	void setYacceleration(double yAcl);
 	void setAnimationRate(int rate);
 	void setXvelocity(double xVel);
@@ -50,7 +48,6 @@ public:
 	bool jump();
 	void update();
 	void resetPlayerPos();
-	void resetWindowView(sf::Vector2f position, sf::Vector2i screenDimensions, sf::View view, sf::RenderWindow& Window);
+	void resetWindowView(sf::Vector2f position, sf::Vector2i screenDimensions, sf::View view, sf::RenderWindow& window);
 };
-
 #endif

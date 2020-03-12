@@ -16,11 +16,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 	std::string filePrefixH = "C://Users//delli7desktop//Documents//GitHub//late//late//resources//";
 	std::string filePrefixLinux = "./resources/";
 
-	std::string file = filePrefixLinux + "font.ttf";
+	std::string file = filePrefixH + "font.ttf";
 
 	try 
 	{
-		if (!font.loadFromFile(filePrefixLinux + "font.ttf"))
+		if (!font.loadFromFile(filePrefixH + "font.ttf"))
 			throw(std::string("Could not load font"));
 	}
 	catch (const std::string& errorMessage)
@@ -51,7 +51,11 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
+<<<<<<< Updated upstream
 		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.jpg"))
+=======
+		if (!menuBackground.loadFromFile(filePrefixH + "wakeup.png"))
+>>>>>>> Stashed changes
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)
@@ -85,9 +89,9 @@ sf::IntRect* Menu::createIntRect(sf::Vector2i position, std::string item, int ch
 }
 
 
-void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage)
+void Menu::mainMenu(sf::RenderWindow& window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage)
 {
-	Menu menu(static_cast<float>(Window.getSize().x), static_cast<float>(Window.getSize().y));
+	Menu menu(static_cast<float>(window.getSize().x), static_cast<float>(window.getSize().y));
 	sf::Event event;
 	GameShell startGameObject;
 
@@ -99,29 +103,29 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 	}
 
 
-	while (Window.isOpen())
+	while (window.isOpen())
 	{
-		Window.clear();
-		menu.displayBackground(Window);
-		menu.drawAllOptions(Window);
-		Window.display();
+		window.clear();
+		menu.displayBackground(window);
+		menu.drawAllOptions(window);
+		window.display();
 		
-		sf::IntRect mouse(sf::Mouse::getPosition(Window), sf::Vector2i(1, 1));
+		sf::IntRect mouse(sf::Mouse::getPosition(window), sf::Vector2i(1, 1));
 		if (option[0]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			std::cout << "Play button has been pressed" << std::endl;
-			startGameObject.startGame(Window, screenDimensions, sound, view, playerTexture, bImage, menu);
+			startGameObject.startGame(window, screenDimensions, sound, view, playerTexture, bImage, menu);
 		}
 		if (option[1]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			std::cout << "Help button has been pressed" << std::endl;
-			helpScreen(Window, screenDimensions, sound, view, playerTexture, bImage, menu, event);
+			helpScreen(window, screenDimensions, sound, view, playerTexture, bImage, menu, event);
 		}
 		if (option[2]->intersects(mouse) && sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
-			Window.close();
+			window.close();
 		}
-		while (Window.pollEvent(event))
+		while (window.pollEvent(event))
 		{
 			switch (event.type)
 			{
@@ -141,20 +145,20 @@ void Menu::mainMenu(sf::RenderWindow& Window, sf::Vector2i screenDimensions, sf:
 					{
 					case 0:
 						std::cout << "Play button has been pressed" << std::endl;
-						startGameObject.startGame(Window, screenDimensions, sound, view, playerTexture, bImage, menu);
+						startGameObject.startGame(window, screenDimensions, sound, view, playerTexture, bImage, menu);
 						break;
 
 					case 1:
 						std::cout << "Help button has been pressed" << std::endl;
-						helpScreen(Window, screenDimensions, sound, view, playerTexture, bImage, menu, event);
+						helpScreen(window, screenDimensions, sound, view, playerTexture, bImage, menu, event);
 					case 2:
-						Window.close();
+						window.close();
 						break;
 					}
 				}
 				break;
 			case sf::Event::Closed:
-				Window.close();
+				window.close();
 				break;
 			}
 		}
@@ -207,10 +211,10 @@ std::vector<sf::Text> Menu::getMenuOptions()
 	return menuOptions;
 }
 
-void Menu::displayBackground(sf::RenderWindow& Window)
+void Menu::displayBackground(sf::RenderWindow& window)
 {
-	Window.clear();
-	Window.draw(menuBack);
+	window.clear();
+	window.draw(menuBack);
 }
 
 void Menu::drawAllOptions(sf::RenderWindow& window)
@@ -298,3 +302,11 @@ void Menu::displayGameOver(sf::RenderWindow& window, sf::Vector2i screenDimensio
 		}
 	}
 }
+<<<<<<< Updated upstream
+=======
+
+int Menu::GetPressedItem()
+{
+	return selectedItemIndex;
+}
+>>>>>>> Stashed changes

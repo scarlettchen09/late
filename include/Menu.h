@@ -25,9 +25,13 @@ private:
 public:
 	Menu();
 	Menu(float width, float height);
+
 	std::vector<sf::Text> getMenuOptions();
 	sf::IntRect* createIntRect(sf::Vector2i position, std::string item, int characterSize);
-	void mainMenu(sf::RenderWindow & Window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage);
+	
+	int GetPressedItem();
+
+	void mainMenu(sf::RenderWindow & window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>&bImage);
 	void helpScreen(sf::RenderWindow & window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, Menu menu, sf::Event event);
 	void displayBackground(sf::RenderWindow& Window);
 	void drawAllOptions(sf::RenderWindow& window);
@@ -35,5 +39,4 @@ public:
 	void moveUp();
 	void moveDown();
 	void displayGameOver(sf::RenderWindow & window, sf::Vector2i screenDimensions, sf::Sound sound[], sf::View view, sf::Texture playerTexture, std::vector<sf::Sprite*>& bImage, std::string msg, Score score);
-	int GetPressedItem() { return selectedItemIndex; }
 };

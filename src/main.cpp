@@ -75,7 +75,6 @@ namespace setup
 		{
 			std::cout << errorMessage << std::endl << std::endl;
 		}
-
 	}
 }
 
@@ -97,7 +96,7 @@ int main()
 	Window.setKeyRepeatEnabled(false);
 	Window.setFramerateLimit(60);
 
-	setup::loadMainFiles(playerTexture, music, jump, die, bImage, filePrefixLinux);
+	setup::loadMainFiles(playerTexture, music, jump, die, bImage, filePrefixH);
 
 	sound[0].setBuffer(jump);
 	sound[1].setBuffer(die);
