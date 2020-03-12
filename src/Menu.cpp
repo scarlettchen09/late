@@ -51,7 +51,7 @@ Menu::Menu(float width, float height) : numberOfMenuOptions(3)
 
 	try 
 	{
-		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.png"))
+		if (!menuBackground.loadFromFile(filePrefixLinux + "wakeup.jpg"))
 			throw(std::string("Could not background image"));
 	}
 	catch (const std::string& errorMessage)
